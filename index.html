@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpenseTracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #4285f4 0%, #3367d6 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo::before {
+            content: "📊";
+            font-size: 20px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .btn-primary {
+            background: #4285f4;
+            border-color: #4285f4;
+        }
+        
+        .btn-primary:hover {
+            background: #3367d6;
+        }
+        
+        .btn-success {
+            background: #34a853;
+            border-color: #34a853;
+        }
+        
+        .btn-danger {
+            background: #ea4335;
+            border-color: #ea4335;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+        
+        .login-card {
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4285f4;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .page-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .utilities-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .utility-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #333;
+        }
+        
+        .utility-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .utility-name {
+            font-weight: 600;
+            font-size: 18px;
+        }
+        
+        .utility-dates {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .utility-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-completed {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .status-pending {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .expense-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+        
+        .expense-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .expense-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ea4335;
+        }
+        
+        .expense-category {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .expense-description {
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .expense-date {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            border-left: 4px solid #4285f4;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .report-expense-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #4285f4;
+        }
+        
+        .report-expense-details {
+            flex: 1;
+        }
+        
+        .report-expense-amount {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ea4335;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .alert {
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+        
+        .alert-success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+            
+            .nav-buttons {
+                justify-content: center;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .utilities-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+            
+            .utility-item {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+            
+            .utility-actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="container">
+        <div class="card login-card">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #333;">ExpenseTracker Login</h2>
+            <div id="loginAlert"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Expenses Page -->
+    <div id="expensesPage" class="container hidden">
+        <div class="header">
+            <div class="logo">ExpenseTracker</div>
+            <div class="nav-buttons">
+                <button class="btn" onclick="showUtilitiesPage()">📋 Utilities</button>
+                <button class="btn" onclick="showReportsPage()">📊 Reports</button>
+                <button class="btn" onclick="showSettings()">⚙️ Settings</button>
+                <button class="btn btn-danger" onclick="signOut()">🚪 Sign Out</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 style="margin-bottom: 20px; color: #333;">Add New Expense</h2>
+            <div id="expenseAlert"></div>
+            <form id="expenseForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expenseDescription">Description:</label>
+                        <input type="text" id="expenseDescription" name="description" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="expenseAmount">Amount (₹):</label>
+                        <input type="number" id="expenseAmount" name="amount" step="0.01" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expenseCategory">Category:</label>
+                        <select id="expenseCategory" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Food">Food</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Utilities">Utilities</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="expenseDate">Date:</label>
+                        <input type="date" id="expenseDate" name="date" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">➕ Add Expense</button>
+            </form>
+        </div>
+        
+        <div class="card">
+            <h3 style="margin-bottom: 20px; color: #333;">Recent Expenses</h3>
+            <div id="expensesList"></div>
+        </div>
+    </div>
+
+    <!-- Utilities Page -->
+    <div id="utilitiesPage" class="container hidden">
+        <div class="header">
+            <div class="logo">ExpenseTracker</div>
+            <div class="nav-buttons">
+                <button class="btn" onclick="showExpensesPage()">💰 Expenses</button>
+                <button class="btn" onclick="showReportsPage()">📊 Reports</button>
+                <button class="btn btn-danger" onclick="signOut()">🚪 Sign Out</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="utilityName">Utility Name</label>
+                    <input type="text" id="utilityName" placeholder="Enter utility name" required>
+                </div>
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate" required>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="addUtility()">➕ Add Utility</button>
+        </div>
+        
+        <div class="utilities-header">
+            <h2 class="page-title" style="margin: 0; text-align: left;">Utilities</h2>
+            <button class="btn" onclick="exportUtilitiesReport()">📊 Export Utilities Report</button>
+        </div>
+        
+        <div id="utilitiesList"></div>
+    </div>
+
+    <!-- Reports Page -->
+    <div id="reportsPage" class="container hidden">
+        <div class="header">
+            <div class="logo">ExpenseTracker</div>
+            <div class="nav-buttons">
+                <button class="btn" onclick="showExpensesPage()">💰 Expenses</button>
+                <button class="btn" onclick="showUtilitiesPage()">📋 Utilities</button>
+                <button class="btn btn-danger" onclick="signOut()">🚪 Sign Out</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 style="margin-bottom: 20px; color: #333;">Generate Expense Report</h2>
+            <div id="reportAlert"></div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reportStartDate">Start Date:</label>
+                    <input type="date" id="reportStartDate">
+                </div>
+                <div class="form-group">
+                    <label for="reportEndDate">End Date:</label>
+                    <input type="date" id="reportEndDate">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="reportCategory">Category:</label>
+                <select id="reportCategory">
+                    <option value="all">All Categories</option>
+                    <option value="Food">Food</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            
+            <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+                <button class="btn btn-primary" onclick="generateReport()">📊 Generate Report</button>
+                <button class="btn btn-success" onclick="exportReport()">📥 Export to CSV</button>
+                <button class="btn" onclick="clearReport()">🗑️ Clear Report</button>
+            </div>
+        </div>
+        
+        <div id="reportResults" class="hidden">
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="color: #333; margin: 0;">Report Results</h3>
+                    <div id="reportSummary" style="text-align: right; font-size: 14px; color: #666;"></div>
+                </div>
+                
+                <div id="reportStats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;"></div>
+                
+                <div id="reportExpensesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let currentUser = null;
+        let expenses = [];
+        let utilities = [];
+
+        // Initialize the application
+        function init() {
+            // Load data from memory
+            loadData();
+            
+            // Set today's date as default
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('expenseDate').value = today;
+            document.getElementById('startDate').value = today;
+            
+            // Show login page initially
+            showLoginPage();
+            
+            // Add event listeners
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('expenseForm').addEventListener('submit', handleAddExpense);
+        }
+
+        // Data Management
+        function loadData() {
+            // In a real application, this would load from a database
+            // For now, we'll use in-memory storage with empty arrays
+            // Data will only be populated when user adds expenses/utilities
+            if (!expenses.length) {
+                expenses = [];
+            }
+            
+            if (!utilities.length) {
+                utilities = [];
+            }
+        }
+
+        function saveData() {
+            // In a real application, this would save to a database
+            console.log('Data saved:', { expenses, utilities });
+        }
+
+        // Authentication
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === 'Admin' && password === 'Admin') {
+                currentUser = username;
+                showAlert('loginAlert', 'Login successful!', 'success');
+                setTimeout(() => {
+                    showExpensesPage();
+                }, 1000);
+            } else {
+                showAlert('loginAlert', 'Invalid username or password', 'error');
+            }
+        }
+
+        function signOut() {
+            currentUser = null;
+            showLoginPage();
+            document.getElementById('loginForm').reset();
+        }
+
+        // Page Navigation
+        function showLoginPage() {
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('expensesPage').classList.add('hidden');
+            document.getElementById('utilitiesPage').classList.add('hidden');
+        }
+
+        function showExpensesPage() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('expensesPage').classList.remove('hidden');
+            document.getElementById('utilitiesPage').classList.add('hidden');
+            document.getElementById('reportsPage').classList.add('hidden');
+            renderExpenses();
+        }
+
+        function showUtilitiesPage() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('expensesPage').classList.add('hidden');
+            document.getElementById('utilitiesPage').classList.remove('hidden');
+            document.getElementById('reportsPage').classList.add('hidden');
+            renderUtilities();
+        }
+
+        function showReportsPage() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('expensesPage').classList.add('hidden');
+            document.getElementById('utilitiesPage').classList.add('hidden');
+            document.getElementById('reportsPage').classList.remove('hidden');
+            
+            // Set default dates (last 30 days)
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today);
+            thirtyDaysAgo.setDate(today.getDate() - 30);
+            
+            document.getElementById('reportEndDate').value = today.toISOString().split('T')[0];
+            document.getElementById('reportStartDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+        }
+
+        function showSettings() {
+            alert('Settings functionality coming soon!');
+        }
+
+        // Expense Management
+        function handleAddExpense(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const expense = {
+                id: Date.now(),
+                user: currentUser,
+                description: formData.get('description'),
+                amount: parseFloat(formData.get('amount')),
+                category: formData.get('category'),
+                date: formData.get('date')
+            };
+            
+            expenses.unshift(expense);
+            saveData();
+            
+            showAlert('expenseAlert', 'Expense added successfully!', 'success');
+            document.getElementById('expenseForm').reset();
+            document.getElementById('expenseDate').value = new Date().toISOString().split('T')[0];
+            
+            renderExpenses();
+        }
+
+        function renderExpenses() {
+            const container = document.getElementById('expensesList');
+            const userExpenses = expenses.filter(expense => expense.user === currentUser);
+            
+            if (userExpenses.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">No expenses recorded yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = userExpenses.map(expense => `
+                <div class="expense-item">
+                    <div class="expense-header">
+                        <div class="expense-amount">₹${expense.amount.toFixed(2)}</div>
+                        <div class="expense-category">${expense.category}</div>
+                    </div>
+                    <div class="expense-description">${expense.description}</div>
+                    <div class="expense-date">${formatDate(expense.date)}</div>
+                </div>
+            `).join('');
+        }
+
+        // Utility Management
+        function addUtility() {
+            const utilityName = document.getElementById('utilityName').value;
+            const startDate = document.getElementById('startDate').value;
+            
+            if (!utilityName || !startDate) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const utility = {
+                id: Date.now(),
+                user: currentUser,
+                name: utilityName,
+                startDate: startDate,
+                endDate: null, // Initially no end date
+                status: 'pending' // Initially pending
+            };
+            
+            utilities.push(utility);
+            saveData();
+            
+            // Clear form
+            document.getElementById('utilityName').value = '';
+            document.getElementById('startDate').value = new Date().toISOString().split('T')[0];
+            
+            renderUtilities();
+        }
+
+        function renderUtilities() {
+            const container = document.getElementById('utilitiesList');
+            const userUtilities = utilities.filter(utility => utility.user === currentUser);
+            
+            if (userUtilities.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">No utilities added yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = userUtilities.map(utility => `
+                <div class="utility-item">
+                    <div class="utility-info">
+                        <div>
+                            <div class="utility-name">${utility.name}</div>
+                            <div class="utility-dates">Start: ${formatDate(utility.startDate)}${utility.endDate ? ' | End: ' + formatDate(utility.endDate) : ''}</div>
+                        </div>
+                    </div>
+                    <div class="utility-actions">
+                        <span class="status-badge ${utility.status === 'completed' ? 'status-completed' : 'status-pending'}">
+                            ${utility.status === 'completed' ? 'Completed' : 'Completed'}
+                        </span>
+                        <button class="btn btn-success" onclick="toggleUtilityStatus(${utility.id})">
+                            ${utility.status === 'completed' ? 'Completed' : 'Completed'}
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteUtility(${utility.id})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleUtilityStatus(id) {
+            const utility = utilities.find(u => u.id === id);
+            if (utility) {
+                if (utility.status === 'pending') {
+                    // When marking as completed for the first time, set the end date to today
+                    utility.status = 'completed';
+                    utility.endDate = new Date().toISOString().split('T')[0];
+                } else {
+                    // If already completed, revert to pending and remove end date
+                    utility.status = 'pending';
+                    utility.endDate = null;
+                }
+                saveData();
+                renderUtilities();
+            }
+        }
+
+        function deleteUtility(id) {
+            if (confirm('Are you sure you want to delete this utility?')) {
+                utilities = utilities.filter(u => u.id !== id);
+                saveData();
+                renderUtilities();
+            }
+        }
+
+        function exportUtilitiesReport() {
+            const userUtilities = utilities.filter(utility => utility.user === currentUser);
+            const csv = 'Name,Start Date,End Date,Status\n' + 
+                userUtilities.map(u => `"${u.name}","${u.startDate}","${u.endDate || 'N/A'}","${u.status}"`).join('\n');
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'utilities-report.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Report Generation Functions
+        let currentReportData = [];
+
+        function generateReport() {
+            const startDate = document.getElementById('reportStartDate').value;
+            const endDate = document.getElementById('reportEndDate').value;
+            const category = document.getElementById('reportCategory').value;
+            
+            if (!startDate || !endDate) {
+                showAlert('reportAlert', 'Please select both start and end dates', 'error');
+                return;
+            }
+            
+            if (new Date(startDate) > new Date(endDate)) {
+                showAlert('reportAlert', 'Start date cannot be after end date', 'error');
+                return;
+            }
+            
+            // Filter expenses based on criteria
+            let filteredExpenses = expenses.filter(expense => expense.user === currentUser);
+            
+            // Filter by date range
+            filteredExpenses = filteredExpenses.filter(expense => {
+                const expenseDate = new Date(expense.date);
+                return expenseDate >= new Date(startDate) && expenseDate <= new Date(endDate);
+            });
+            
+            // Filter by category if not 'all'
+            if (category !== 'all') {
+                filteredExpenses = filteredExpenses.filter(expense => expense.category === category);
+            }
+            
+            currentReportData = filteredExpenses;
+            renderReport(filteredExpenses, startDate, endDate, category);
+        }
+
+        function renderReport(expenses, startDate, endDate, category) {
+            const resultsContainer = document.getElementById('reportResults');
+            const summaryContainer = document.getElementById('reportSummary');
+            const statsContainer = document.getElementById('reportStats');
+            const expensesContainer = document.getElementById('reportExpensesList');
+            
+            if (expenses.length === 0) {
+                resultsContainer.classList.remove('hidden');
+                summaryContainer.innerHTML = 'No expenses found for the selected criteria';
+                statsContainer.innerHTML = '';
+                expensesContainer.innerHTML = '<p style="text-align: center; color: #666;">No expenses found.</p>';
+                return;
+            }
+            
+            // Calculate statistics
+            const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+            const averageAmount = totalAmount / expenses.length;
+            const categoryBreakdown = {};
+            
+            expenses.forEach(expense => {
+                categoryBreakdown[expense.category] = (categoryBreakdown[expense.category] || 0) + expense.amount;
+            });
+            
+            const topCategory = Object.keys(categoryBreakdown).reduce((a, b) => 
+                categoryBreakdown[a] > categoryBreakdown[b] ? a : b
+            );
+            
+            // Display summary
+            const categoryText = category === 'all' ? 'All Categories' : category;
+            summaryContainer.innerHTML = `
+                <div><strong>${expenses.length}</strong> expenses found</div>
+                <div>${formatDate(startDate)} to ${formatDate(endDate)}</div>
+                <div>Category: <strong>${categoryText}</strong></div>
+            `;
+            
+            // Display statistics
+            statsContainer.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">₹${totalAmount.toFixed(2)}</div>
+                    <div class="stat-label">Total Amount</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">₹${averageAmount.toFixed(2)}</div>
+                    <div class="stat-label">Average Amount</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${expenses.length}</div>
+                    <div class="stat-label">Total Expenses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${topCategory}</div>
+                    <div class="stat-label">Top Category</div>
+                </div>
+            `;
+            
+            // Display expenses list
+            expensesContainer.innerHTML = expenses
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map(expense => `
+                    <div class="report-expense-item">
+                        <div class="report-expense-details">
+                            <div style="font-weight: 600; margin-bottom: 4px;">${expense.description}</div>
+                            <div style="font-size: 14px; color: #666;">
+                                ${expense.category} • ${formatDate(expense.date)}
+                            </div>
+                        </div>
+                        <div class="report-expense-amount">₹${expense.amount.toFixed(2)}</div>
+                    </div>
+                `).join('');
+            
+            resultsContainer.classList.remove('hidden');
+            showAlert('reportAlert', 'Report generated successfully!', 'success');
+        }
+
+        function exportReport() {
+            if (currentReportData.length === 0) {
+                showAlert('reportAlert', 'Please generate a report first', 'error');
+                return;
+            }
+            
+            const startDate = document.getElementById('reportStartDate').value;
+            const endDate = document.getElementById('reportEndDate').value;
+            const category = document.getElementById('reportCategory').value;
+            
+            // Calculate totals for summary
+            const totalAmount = currentReportData.reduce((sum, expense) => sum + expense.amount, 0);
+            
+            // Create CSV content
+            let csvContent = 'Expense Report\n';
+            csvContent += `Generated on: ${new Date().toLocaleDateString()}\n`;
+            csvContent += `Period: ${formatDate(startDate)} to ${formatDate(endDate)}\n`;
+            csvContent += `Category: ${category === 'all' ? 'All Categories' : category}\n`;
+            csvContent += `Total Expenses: ${currentReportData.length}\n`;
+            csvContent += `Total Amount: ₹${totalAmount.toFixed(2)}\n\n`;
+            
+            csvContent += 'Date,Description,Category,Amount\n';
+            csvContent += currentReportData
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map(expense => `"${expense.date}","${expense.description}","${expense.category}","${expense.amount}"`)
+                .join('\n');
+            
+            // Download CSV
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `expense-report-${startDate}-to-${endDate}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            showAlert('reportAlert', 'Report exported successfully!', 'success');
+        }
+
+        function clearReport() {
+            document.getElementById('reportResults').classList.add('hidden');
+            currentReportData = [];
+            document.getElementById('reportStartDate').value = '';
+            document.getElementById('reportEndDate').value = '';
+            document.getElementById('reportCategory').value = 'all';
+            
+            // Set default dates again
+            const today = new Date();
+            const thirtyDaysAgo = new Date(today);
+            thirtyDaysAgo.setDate(today.getDate() - 30);
+            
+            document.getElementById('reportEndDate').value = today.toISOString().split('T')[0];
+            document.getElementById('reportStartDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+        }
+
+        // Utility Functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-IN', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function showAlert(containerId, message, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // Initialize the application
+        init();
+    </script>
+</body>
+</html>
