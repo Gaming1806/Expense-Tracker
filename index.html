@@ -588,7 +588,7 @@
             document.getElementById('expenseForm').addEventListener('submit', handleAddExpense);
         }
 
-        // Data Management with localStorage for persistence
+        // Data Management with localStorage for persistence + backup/restore system
         function loadDataFromStorage() {
             try {
                 const savedExpenses = localStorage.getItem('expenseTracker_expenses');
@@ -596,6 +596,9 @@
                 
                 expenses = savedExpenses ? JSON.parse(savedExpenses) : [];
                 utilities = savedUtilities ? JSON.parse(savedUtilities) : [];
+                
+                // Clean old data (older than 1 year)
+                cleanOldData();
             } catch (error) {
                 console.error('Error loading data from storage:', error);
                 expenses = [];
@@ -603,14 +606,269 @@
             }
         }
 
+        function cleanOldData() {
+            const oneYearAgo = new Date();
+            oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+            
+            // Remove expenses older than 1 year
+            const initialExpenseCount = expenses.length;
+            expenses = expenses.filter(expense => new Date(expense.date) >= oneYearAgo);
+            
+            // Remove utilities older than 1 year
+            const initialUtilityCount = utilities.length;
+            utilities = utilities.filter(utility => new Date(utility.startDate) >= oneYearAgo);
+            
+            if (initialExpenseCount > expenses.length || initialUtilityCount > utilities.length) {
+                console.log(`Cleaned ${initialExpenseCount - expenses.length} old expenses and ${initialUtilityCount - utilities.length} old utilities`);
+                saveDataToStorage();
+            }
+        }
+
         function saveDataToStorage() {
             try {
+                // Add timestamp for data versioning
+                const dataWithTimestamp = {
+                    expenses: expenses,
+                    utilities: utilities,
+                    lastUpdated: new Date().toISOString(),
+                    version: '1.0'
+                };
+                
                 localStorage.setItem('expenseTracker_expenses', JSON.stringify(expenses));
                 localStorage.setItem('expenseTracker_utilities', JSON.stringify(utilities));
+                localStorage.setItem('expenseTracker_metadata', JSON.stringify(dataWithTimestamp));
+                
                 console.log('Data saved to localStorage');
             } catch (error) {
                 console.error('Error saving data to storage:', error);
                 alert('Error saving data. Please try again.');
+            }
+        }
+
+        // Backup and Restore Functions
+        function exportBackup() {
+            try {
+                const backupData = {
+                    expenses: expenses,
+                    utilities: utilities,
+                    exportDate: new Date().toISOString(),
+                    version: '1.0',
+                    user: currentUser
+                };
+                
+                const backupJson = JSON.stringify(backupData, null, 2);
+                const blob = new Blob([backupJson], { type: 'application/json' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `expense-backup-${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                window.URL.revokeObjectURL(url);
+                
+                alert('✅ Backup exported successfully! Save this file to restore data on other devices.');
+            } catch (error) {
+                console.error('Export error:', error);
+                alert('❌ Error creating backup. Please try again.');
+            }
+        }
+
+        function importBackup() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const backupData = JSON.parse(e.target.result);
+                        
+                        // Validate backup data structure
+                        if (!backupData.expenses || !backupData.utilities) {
+                            throw new Error('Invalid backup file format');
+                        }
+                        
+                        // Ask user if they want to merge or replace
+                        const choice = confirm(
+                            '📋 Import Options:\n\n' +
+                            '✅ OK = MERGE with existing data\n' +
+                            '❌ Cancel = REPLACE all existing data\n\n' +
+                            `Backup contains:\n` +
+                            `• ${backupData.expenses.length} expenses\n` +
+                            `• ${backupData.utilities.length} utilities\n` +
+                            `• Created: ${new Date(backupData.exportDate).toLocaleDateString()}`
+                        );
+                        
+                        if (choice) {
+                            // Merge data (avoiding duplicates by ID)
+                            const existingExpenseIds = new Set(expenses.map(e => e.id));
+                            const existingUtilityIds = new Set(utilities.map(u => u.id));
+                            
+                            const newExpenses = backupData.expenses.filter(e => !existingExpenseIds.has(e.id));
+                            const newUtilities = backupData.utilities.filter(u => !existingUtilityIds.has(u.id));
+                            
+                            expenses = [...expenses, ...newExpenses];
+                            utilities = [...utilities, ...newUtilities];
+                            
+                            alert(`✅ Data merged successfully!\n\nAdded:\n• ${newExpenses.length} new expenses\n• ${newUtilities.length} new utilities`);
+                        } else {
+                            // Replace all data
+                            expenses = backupData.expenses;
+                            utilities = backupData.utilities;
+                            
+                            alert(`✅ Data restored successfully!\n\nRestored:\n• ${expenses.length} expenses\n• ${utilities.length} utilities`);
+                        }
+                        
+                        saveDataToStorage();
+                        
+                        // Refresh current view
+                        if (document.getElementById('expensesPage').classList.contains('hidden') === false) {
+                            renderExpenses();
+                            renderMonthlyStats();
+                            renderExpenseChart();
+                        } else if (document.getElementById('utilitiesPage').classList.contains('hidden') === false) {
+                            renderUtilities();
+                        }
+                        
+                    } catch (error) {
+                        console.error('Import error:', error);
+                        alert('❌ Invalid backup file. Please select a valid backup file.');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function generateBackupCode() {
+            try {
+                const backupData = {
+                    expenses: expenses,
+                    utilities: utilities,
+                    exportDate: new Date().toISOString(),
+                    version: '1.0'
+                };
+                
+                const backupString = JSON.stringify(backupData);
+                const encodedData = btoa(backupString); // Base64 encode
+                
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                    background: rgba(0,0,0,0.8); z-index: 10000; display: flex;
+                    align-items: center; justify-content: center; padding: 20px;
+                `;
+                
+                modal.innerHTML = `
+                    <div style="background: white; border-radius: 12px; padding: 30px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto;">
+                        <h3 style="margin-bottom: 20px; color: #333;">📱 Backup Code</h3>
+                        <p style="color: #666; margin-bottom: 15px;">Copy this code and paste it on another device to restore your data:</p>
+                        <textarea readonly style="width: 100%; height: 200px; font-family: monospace; font-size: 12px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; resize: vertical;">${encodedData}</textarea>
+                        <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+                            <button onclick="navigator.clipboard.writeText('${encodedData}').then(() => alert('Code copied to clipboard!')).catch(() => alert('Please copy the code manually'))" style="padding: 10px 20px; background: #4285f4; color: white; border: none; border-radius: 8px; cursor: pointer;">📋 Copy Code</button>
+                            <button onclick="document.body.removeChild(this.parentElement.parentElement.parentElement)" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer;">✖️ Close</button>
+                        </div>
+                        <p style="font-size: 12px; color: #999; margin-top: 15px;">💡 Tip: Save this code in your notes app or email it to yourself for easy access on other devices.</p>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+            } catch (error) {
+                console.error('Generate code error:', error);
+                alert('❌ Error generating backup code. Please try again.');
+            }
+        }
+
+        function restoreFromCode() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.8); z-index: 10000; display: flex;
+                align-items: center; justify-content: center; padding: 20px;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 12px; padding: 30px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto;">
+                    <h3 style="margin-bottom: 20px; color: #333;">🔄 Restore from Code</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Paste your backup code here:</p>
+                    <textarea id="restoreCodeInput" placeholder="Paste backup code here..." style="width: 100%; height: 200px; font-family: monospace; font-size: 12px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; resize: vertical;"></textarea>
+                    <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+                        <button onclick="processRestoreCode()" style="padding: 10px 20px; background: #34a853; color: white; border: none; border-radius: 8px; cursor: pointer;">🔄 Restore Data</button>
+                        <button onclick="document.body.removeChild(this.parentElement.parentElement.parentElement)" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer;">✖️ Cancel</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function processRestoreCode() {
+            try {
+                const code = document.getElementById('restoreCodeInput').value.trim();
+                if (!code) {
+                    alert('❌ Please paste a backup code');
+                    return;
+                }
+                
+                const decodedData = atob(code); // Base64 decode
+                const backupData = JSON.parse(decodedData);
+                
+                // Validate backup data structure
+                if (!backupData.expenses || !backupData.utilities) {
+                    throw new Error('Invalid backup code format');
+                }
+                
+                const choice = confirm(
+                    '📋 Restore Options:\n\n' +
+                    '✅ OK = MERGE with existing data\n' +
+                    '❌ Cancel = REPLACE all existing data\n\n' +
+                    `Backup contains:\n` +
+                    `• ${backupData.expenses.length} expenses\n` +
+                    `• ${backupData.utilities.length} utilities\n` +
+                    `• Created: ${new Date(backupData.exportDate).toLocaleDateString()}`
+                );
+                
+                if (choice) {
+                    // Merge data
+                    const existingExpenseIds = new Set(expenses.map(e => e.id));
+                    const existingUtilityIds = new Set(utilities.map(u => u.id));
+                    
+                    const newExpenses = backupData.expenses.filter(e => !existingExpenseIds.has(e.id));
+                    const newUtilities = backupData.utilities.filter(u => !existingUtilityIds.has(u.id));
+                    
+                    expenses = [...expenses, ...newExpenses];
+                    utilities = [...utilities, ...newUtilities];
+                    
+                    alert(`✅ Data merged successfully!\n\nAdded:\n• ${newExpenses.length} new expenses\n• ${newUtilities.length} new utilities`);
+                } else {
+                    // Replace all data
+                    expenses = backupData.expenses;
+                    utilities = backupData.utilities;
+                    
+                    alert(`✅ Data restored successfully!\n\nRestored:\n• ${expenses.length} expenses\n• ${utilities.length} utilities`);
+                }
+                
+                saveDataToStorage();
+                
+                // Close modal
+                const modal = document.querySelector('div[style*="position: fixed"]');
+                if (modal) document.body.removeChild(modal);
+                
+                // Refresh current view
+                if (document.getElementById('expensesPage').classList.contains('hidden') === false) {
+                    renderExpenses();
+                    renderMonthlyStats();
+                    renderExpenseChart();
+                } else if (document.getElementById('utilitiesPage').classList.contains('hidden') === false) {
+                    renderUtilities();
+                }
+                
+            } catch (error) {
+                console.error('Restore error:', error);
+                alert('❌ Invalid backup code. Please check the code and try again.');
             }
         }
 
@@ -620,7 +878,7 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            if ((username === 'Admin' || username === 'KrishSonix') && password === 'KrishSonix@18') {
+            /*if ((username === 'Admin' ) && password === 'KrishSonix@18') {
                 currentUser = username;
                 showAlert('loginAlert', 'Login successful!', 'success');
                 setTimeout(() => {
@@ -628,7 +886,18 @@
                 }, 1000);
             } else {
                 showAlert('loginAlert', 'Invalid username or password', 'error');
+            }*/
+            if ((username === 'KrishSonix') && password === 'KrishSonix@18') {
+                currentUser = username;
+                showAlert('loginAlert', 'Login successful!', 'success');
+                setTimeout(() => {
+                    showExpensesPage();
+                }, 1000);
             }
+            else {
+                showAlert('loginAlert', 'Invalid username or password', 'error');
+            }
+            
         }
 
         function signOut() {
@@ -679,7 +948,61 @@
         }
 
         function showSettings() {
-            alert('Settings functionality coming soon!');
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.8); z-index: 10000; display: flex;
+                align-items: center; justify-content: center; padding: 20px;
+            `;
+            
+            const metadata = localStorage.getItem('expenseTracker_metadata');
+            let lastUpdated = 'Never';
+            
+            if (metadata) {
+                try {
+                    const data = JSON.parse(metadata);
+                    lastUpdated = new Date(data.lastUpdated).toLocaleString();
+                } catch (e) {
+                    lastUpdated = 'Unknown';
+                }
+            }
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 12px; padding: 30px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto;">
+                    <h3 style="margin-bottom: 25px; color: #333; text-align: center;">⚙️ Settings & Data Management</h3>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <h4 style="color: #333; margin-bottom: 10px;">📊 Current Data</h4>
+                        <p style="margin: 5px 0; color: #666;">• ${expenses.filter(e => e.user === currentUser).length} expenses</p>
+                        <p style="margin: 5px 0; color: #666;">• ${utilities.filter(u => u.user === currentUser).length} utilities</p>
+                        <p style="margin: 5px 0; color: #666;">• Last updated: ${lastUpdated}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #333; margin-bottom: 15px;">💾 Backup & Sync</h4>
+                        <div style="display: grid; gap: 10px;">
+                            <button onclick="exportBackup()" style="padding: 12px 20px; background: #4285f4; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">📥 Export Backup File</button>
+                            <button onclick="importBackup()" style="padding: 12px 20px; background: #34a853; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">📤 Import Backup File</button>
+                            <button onclick="generateBackupCode()" style="padding: 12px 20px; background: #ff9800; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">📱 Generate Backup Code</button>
+                            <button onclick="restoreFromCode()" style="padding: 12px 20px; background: #9c27b0; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">🔄 Restore from Code</button>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <h4 style="color: #1976d2; margin-bottom: 10px;">💡 Cross-Device Sync Guide</h4>
+                        <p style="color: #1976d2; font-size: 14px; margin-bottom: 8px;"><strong>Method 1 - Backup File:</strong></p>
+                        <p style="color: #1976d2; font-size: 13px; margin-bottom: 10px;">1. Export backup file on this device<br>2. Transfer file (email/cloud/USB)<br>3. Import on new device</p>
+                        <p style="color: #1976d2; font-size: 14px; margin-bottom: 8px;"><strong>Method 2 - Backup Code:</strong></p>
+                        <p style="color: #1976d2; font-size: 13px;">1. Generate backup code<br>2. Copy/save the code<br>3. Paste code on new device</p>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center;">
+                        <button onclick="document.body.removeChild(this.parentElement.parentElement)" style="padding: 10px 30px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer;">✖️ Close</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
         }
 
         // Expense Management
