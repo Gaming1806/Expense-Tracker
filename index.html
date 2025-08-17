@@ -14,7 +14,7 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #4285f4 0%, #3367d6 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: white;
         }
@@ -32,19 +32,22 @@
             align-items: center;
             margin-bottom: 30px;
             flex-wrap: wrap;
+            gap: 15px;
         }
         
         .logo {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
         .logo::before {
-            content: "📊";
-            font-size: 20px;
+            content: "💰";
+            font-size: 24px;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
         }
         
         .nav-buttons {
@@ -54,11 +57,11 @@
         }
         
         .btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
@@ -66,49 +69,64 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         
         .btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
         
         .btn-primary {
-            background: #4285f4;
-            border-color: #4285f4;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
         }
         
         .btn-primary:hover {
-            background: #3367d6;
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-2px);
         }
         
         .btn-success {
-            background: #34a853;
-            border-color: #34a853;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border: none;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #0e8678 0%, #32d96b 100%);
         }
         
         .btn-danger {
-            background: #ea4335;
-            border-color: #ea4335;
+            background: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
+            border: none;
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #e63e5a 0%, #3651e3 100%);
         }
         
         .btn-small {
-            padding: 6px 12px;
+            padding: 8px 16px;
             font-size: 12px;
         }
         
         .card {
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
+            border-radius: 20px;
             padding: 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             color: #333;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .login-card {
-            max-width: 400px;
-            margin: 50px auto;
+            max-width: 450px;
+            margin: 80px auto;
+            background: rgba(255, 255, 255, 0.98);
         }
         
         .form-group {
@@ -118,22 +136,26 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 500;
+            font-weight: 600;
             color: #555;
+            font-size: 14px;
         }
         
         .form-group input, .form-group select {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 14px 18px;
+            border: 2px solid #e1e8ed;
+            border-radius: 12px;
             font-size: 16px;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
         }
         
         .form-group input:focus, .form-group select:focus {
             outline: none;
-            border-color: #4285f4;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
         .form-row {
@@ -147,6 +169,10 @@
             font-weight: bold;
             margin-bottom: 20px;
             text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .utilities-header {
@@ -154,39 +180,51 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         
-        .utility-item {
+        .utility-item, .expense-item {
             background: white;
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 24px;
             margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: #333;
+            border: 1px solid #f0f0f0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         
-        .utility-info {
+        .utility-item:hover, .expense-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .utility-info, .expense-header {
             display: flex;
             align-items: center;
             gap: 15px;
+            flex: 1;
         }
         
-        .utility-name {
+        .utility-name, .expense-description {
             font-weight: 600;
             font-size: 18px;
+            color: #2d3748;
         }
         
-        .utility-dates {
-            color: #666;
+        .utility-dates, .expense-date {
+            color: #718096;
             font-size: 14px;
         }
         
-        .utility-actions {
+        .utility-actions, .expense-actions {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
         
         .status-badge {
@@ -197,93 +235,77 @@
         }
         
         .status-completed {
-            background: #e8f5e8;
-            color: #2e7d32;
+            background: #e6fffa;
+            color: #234e52;
         }
         
         .status-pending {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-        
-        .expense-item {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            color: #333;
-        }
-        
-        .expense-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            background: #fffbeb;
+            color: #744210;
         }
         
         .expense-amount {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
-            color: #ea4335;
+            background: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .expense-category {
-            background: #e3f2fd;
-            color: #1976d2;
-            padding: 4px 12px;
-            border-radius: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
-        }
-        
-        .expense-description {
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-        
-        .expense-date {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .expense-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
         
         .stat-card {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 24px;
             text-align: center;
-            border-left: 4px solid #4285f4;
+            box-shadow: 0 4px 20px rgba(240, 147, 251, 0.3);
+            transition: transform 0.2s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
         }
         
         .stat-value {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         
         .stat-label {
             font-size: 14px;
-            color: #666;
+            opacity: 0.9;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
         
         .report-expense-item {
             background: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: 12px;
+            padding: 20px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 4px solid #4285f4;
+            border-left: 4px solid #667eea;
+            transition: all 0.2s ease;
+        }
+        
+        .report-expense-item:hover {
+            background: #e9ecef;
+            transform: translateX(4px);
         }
         
         .report-expense-details {
@@ -293,18 +315,21 @@
         .report-expense-amount {
             font-size: 18px;
             font-weight: bold;
-            color: #ea4335;
+            color: #fc466b;
         }
         
         .chart-container {
             position: relative;
-            height: 300px;
+            height: 350px;
             margin: 20px 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 20px;
         }
         
         .monthly-stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
             margin-bottom: 20px;
         }
@@ -314,21 +339,40 @@
         }
         
         .alert {
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 16px 24px;
+            border-radius: 12px;
             margin-bottom: 20px;
+            font-weight: 500;
         }
         
         .alert-error {
-            background: #ffebee;
-            color: #c62828;
-            border: 1px solid #ffcdd2;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: #721c24;
         }
         
         .alert-success {
-            background: #e8f5e8;
-            color: #2e7d32;
-            border: 1px solid #c8e6c9;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #155724;
+        }
+        
+        .sync-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            z-index: 9999;
+            max-width: 300px;
+            word-wrap: break-word;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
         @media (max-width: 768px) {
@@ -339,7 +383,6 @@
             .header {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 15px;
             }
             
             .nav-buttons {
@@ -357,22 +400,85 @@
             .utilities-header {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 15px;
             }
             
-            .utility-item {
+            .utility-item, .expense-item {
                 flex-direction: column;
                 align-items: stretch;
                 gap: 15px;
             }
             
-            .utility-actions {
+            .utility-actions, .expense-actions {
                 justify-content: center;
             }
             
-            .expense-actions {
-                flex-wrap: wrap;
+            .monthly-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 24px;
                 justify-content: center;
+            }
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .info-box h4 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .security-note {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .expense-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .expense-layout {
+                grid-template-columns: 2fr 1fr;
+                align-items: center;
             }
         }
     </style>
@@ -381,19 +487,24 @@
     <!-- Login Page -->
     <div id="loginPage" class="container">
         <div class="card login-card">
-            <h2 style="text-align: center; margin-bottom: 30px; color: #333;">ExpenseTracker Login</h2>
+            <h2 style="text-align: center; margin-bottom: 30px; color: #333; font-size: 28px;">💰 ExpenseTracker</h2>
             <div id="loginAlert"></div>
             <form id="loginForm">
                 <div class="form-group">
                     <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required>
+                    <input type="text" id="username" name="username" required placeholder="Enter your username">
                 </div>
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Login</button>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 16px;">
+                    🔐 Login
+                </button>
             </form>
+            <div style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
+                Demo: Username: <strong>Admin</strong>, Password: <strong>Admin</strong>
+            </div>
         </div>
     </div>
 
@@ -411,7 +522,7 @@
         
         <!-- Monthly Stats and Trend -->
         <div class="card">
-            <h3 style="margin-bottom: 20px; color: #333;">Monthly Overview</h3>
+            <h3 style="margin-bottom: 20px; color: #333; font-size: 24px;">📈 Monthly Overview</h3>
             <div class="monthly-stats" id="monthlyStats"></div>
             <div class="chart-container">
                 <canvas id="expenseChart"></canvas>
@@ -419,17 +530,17 @@
         </div>
         
         <div class="card">
-            <h2 style="margin-bottom: 20px; color: #333;">Add New Expense</h2>
+            <h2 style="margin-bottom: 20px; color: #333; font-size: 24px;">➕ Add New Expense</h2>
             <div id="expenseAlert"></div>
             <form id="expenseForm">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="expenseDescription">Description:</label>
-                        <input type="text" id="expenseDescription" name="description" required>
+                        <input type="text" id="expenseDescription" name="description" required placeholder="Enter expense description">
                     </div>
                     <div class="form-group">
                         <label for="expenseAmount">Amount (₹):</label>
-                        <input type="number" id="expenseAmount" name="amount" step="0.01" required>
+                        <input type="number" id="expenseAmount" name="amount" step="0.01" required placeholder="0.00">
                     </div>
                 </div>
                 <div class="form-row">
@@ -455,12 +566,12 @@
                         <input type="date" id="expenseDate" name="date" required>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">➕ Add Expense</button>
+                <button type="submit" class="btn btn-primary" style="padding: 16px 32px;">➕ Add Expense</button>
             </form>
         </div>
         
         <div class="card">
-            <h3 style="margin-bottom: 20px; color: #333;">Recent Expenses</h3>
+            <h3 style="margin-bottom: 20px; color: #333; font-size: 24px;">💸 Recent Expenses</h3>
             <div id="expensesList"></div>
         </div>
     </div>
@@ -477,6 +588,7 @@
         </div>
         
         <div class="card">
+            <h3 style="margin-bottom: 20px; color: #333; font-size: 24px;">📋 Add New Utility</h3>
             <div class="form-row">
                 <div class="form-group">
                     <label for="utilityName">Utility Name</label>
@@ -487,12 +599,12 @@
                     <input type="date" id="startDate" required>
                 </div>
             </div>
-            <button class="btn btn-primary" onclick="addUtility()">➕ Add Utility</button>
+            <button class="btn btn-primary" onclick="addUtility()" style="padding: 16px 32px;">➕ Add Utility</button>
         </div>
         
         <div class="utilities-header">
-            <h2 class="page-title" style="margin: 0; text-align: left;">Utilities</h2>
-            <button class="btn" onclick="exportUtilitiesReport()">📊 Export Utilities Report</button>
+            <h2 class="page-title" style="margin: 0; text-align: left;">🔧 Utilities Management</h2>
+            <button class="btn" onclick="exportUtilitiesReport()">📊 Export Report</button>
         </div>
         
         <div id="utilitiesList"></div>
@@ -510,7 +622,7 @@
         </div>
         
         <div class="card">
-            <h2 style="margin-bottom: 20px; color: #333;">Generate Expense Report</h2>
+            <h2 style="margin-bottom: 20px; color: #333; font-size: 24px;">📊 Generate Expense Report</h2>
             <div id="reportAlert"></div>
             
             <div class="form-row">
@@ -551,8 +663,8 @@
         
         <div id="reportResults" class="hidden">
             <div class="card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3 style="color: #333; margin: 0;">Report Results</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                    <h3 style="color: #333; margin: 0; font-size: 24px;">📈 Report Results</h3>
                     <div id="reportSummary" style="text-align: right; font-size: 14px; color: #666;"></div>
                 </div>
                 
@@ -564,16 +676,30 @@
     </div>
 
     <script>
-        // Application State
-        let currentUser = null;
-        let expenses = [];
-        let utilities = [];
+        // Application State - using in-memory storage
+        let appData = {
+            currentUser: null,
+            expenses: [],
+            utilities: [],
+            githubConfig: {
+                token: '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',
+                repo: 'expense-tracker-data',
+                owner: 'Gaming1806',
+                branch: 'main'
+            },
+            lastSync: null
+        };
+        
         let expenseChart = null;
 
         // Initialize the application
         function init() {
-            // Load data from localStorage (persistent storage)
-            loadDataFromStorage();
+            try {
+                // Try to load data from localStorage if available (for demo purposes)
+                loadDataFromStorage();
+            } catch (error) {
+                console.log('Starting with fresh data');
+            }
             
             // Set today's date as default
             const today = new Date().toISOString().split('T')[0];
@@ -588,287 +714,31 @@
             document.getElementById('expenseForm').addEventListener('submit', handleAddExpense);
         }
 
-        // Data Management with localStorage for persistence + backup/restore system
+        // Data Management Functions
         function loadDataFromStorage() {
             try {
                 const savedExpenses = localStorage.getItem('expenseTracker_expenses');
                 const savedUtilities = localStorage.getItem('expenseTracker_utilities');
+                const savedConfig = localStorage.getItem('expenseTracker_github_config');
                 
-                expenses = savedExpenses ? JSON.parse(savedExpenses) : [];
-                utilities = savedUtilities ? JSON.parse(savedUtilities) : [];
+                if (savedExpenses) appData.expenses = JSON.parse(savedExpenses);
+                if (savedUtilities) appData.utilities = JSON.parse(savedUtilities);
+                if (savedConfig) appData.githubConfig = { ...appData.githubConfig, ...JSON.parse(savedConfig) };
                 
-                // Clean old data (older than 1 year)
-                cleanOldData();
+                console.log('Data loaded from localStorage');
             } catch (error) {
-                console.error('Error loading data from storage:', error);
-                expenses = [];
-                utilities = [];
-            }
-        }
-
-        function cleanOldData() {
-            const oneYearAgo = new Date();
-            oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-            
-            // Remove expenses older than 1 year
-            const initialExpenseCount = expenses.length;
-            expenses = expenses.filter(expense => new Date(expense.date) >= oneYearAgo);
-            
-            // Remove utilities older than 1 year
-            const initialUtilityCount = utilities.length;
-            utilities = utilities.filter(utility => new Date(utility.startDate) >= oneYearAgo);
-            
-            if (initialExpenseCount > expenses.length || initialUtilityCount > utilities.length) {
-                console.log(`Cleaned ${initialExpenseCount - expenses.length} old expenses and ${initialUtilityCount - utilities.length} old utilities`);
-                saveDataToStorage();
+                console.log('Using in-memory storage only');
             }
         }
 
         function saveDataToStorage() {
             try {
-                // Add timestamp for data versioning
-                const dataWithTimestamp = {
-                    expenses: expenses,
-                    utilities: utilities,
-                    lastUpdated: new Date().toISOString(),
-                    version: '1.0'
-                };
-                
-                localStorage.setItem('expenseTracker_expenses', JSON.stringify(expenses));
-                localStorage.setItem('expenseTracker_utilities', JSON.stringify(utilities));
-                localStorage.setItem('expenseTracker_metadata', JSON.stringify(dataWithTimestamp));
-                
-                console.log('Data saved to localStorage');
+                localStorage.setItem('expenseTracker_expenses', JSON.stringify(appData.expenses));
+                localStorage.setItem('expenseTracker_utilities', JSON.stringify(appData.utilities));
+                localStorage.setItem('expenseTracker_github_config', JSON.stringify(appData.githubConfig));
+                localStorage.setItem('expenseTracker_lastSync', appData.lastSync || '');
             } catch (error) {
-                console.error('Error saving data to storage:', error);
-                alert('Error saving data. Please try again.');
-            }
-        }
-
-        // Backup and Restore Functions
-        function exportBackup() {
-            try {
-                const backupData = {
-                    expenses: expenses,
-                    utilities: utilities,
-                    exportDate: new Date().toISOString(),
-                    version: '1.0',
-                    user: currentUser
-                };
-                
-                const backupJson = JSON.stringify(backupData, null, 2);
-                const blob = new Blob([backupJson], { type: 'application/json' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `expense-backup-${new Date().toISOString().split('T')[0]}.json`;
-                a.click();
-                window.URL.revokeObjectURL(url);
-                
-                alert('✅ Backup exported successfully! Save this file to restore data on other devices.');
-            } catch (error) {
-                console.error('Export error:', error);
-                alert('❌ Error creating backup. Please try again.');
-            }
-        }
-
-        function importBackup() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            input.onchange = function(event) {
-                const file = event.target.files[0];
-                if (!file) return;
-                
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
-                        const backupData = JSON.parse(e.target.result);
-                        
-                        // Validate backup data structure
-                        if (!backupData.expenses || !backupData.utilities) {
-                            throw new Error('Invalid backup file format');
-                        }
-                        
-                        // Ask user if they want to merge or replace
-                        const choice = confirm(
-                            '📋 Import Options:\n\n' +
-                            '✅ OK = MERGE with existing data\n' +
-                            '❌ Cancel = REPLACE all existing data\n\n' +
-                            `Backup contains:\n` +
-                            `• ${backupData.expenses.length} expenses\n` +
-                            `• ${backupData.utilities.length} utilities\n` +
-                            `• Created: ${new Date(backupData.exportDate).toLocaleDateString()}`
-                        );
-                        
-                        if (choice) {
-                            // Merge data (avoiding duplicates by ID)
-                            const existingExpenseIds = new Set(expenses.map(e => e.id));
-                            const existingUtilityIds = new Set(utilities.map(u => u.id));
-                            
-                            const newExpenses = backupData.expenses.filter(e => !existingExpenseIds.has(e.id));
-                            const newUtilities = backupData.utilities.filter(u => !existingUtilityIds.has(u.id));
-                            
-                            expenses = [...expenses, ...newExpenses];
-                            utilities = [...utilities, ...newUtilities];
-                            
-                            alert(`✅ Data merged successfully!\n\nAdded:\n• ${newExpenses.length} new expenses\n• ${newUtilities.length} new utilities`);
-                        } else {
-                            // Replace all data
-                            expenses = backupData.expenses;
-                            utilities = backupData.utilities;
-                            
-                            alert(`✅ Data restored successfully!\n\nRestored:\n• ${expenses.length} expenses\n• ${utilities.length} utilities`);
-                        }
-                        
-                        saveDataToStorage();
-                        
-                        // Refresh current view
-                        if (document.getElementById('expensesPage').classList.contains('hidden') === false) {
-                            renderExpenses();
-                            renderMonthlyStats();
-                            renderExpenseChart();
-                        } else if (document.getElementById('utilitiesPage').classList.contains('hidden') === false) {
-                            renderUtilities();
-                        }
-                        
-                    } catch (error) {
-                        console.error('Import error:', error);
-                        alert('❌ Invalid backup file. Please select a valid backup file.');
-                    }
-                };
-                reader.readAsText(file);
-            };
-            input.click();
-        }
-
-        function generateBackupCode() {
-            try {
-                const backupData = {
-                    expenses: expenses,
-                    utilities: utilities,
-                    exportDate: new Date().toISOString(),
-                    version: '1.0'
-                };
-                
-                const backupString = JSON.stringify(backupData);
-                const encodedData = btoa(backupString); // Base64 encode
-                
-                const modal = document.createElement('div');
-                modal.style.cssText = `
-                    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                    background: rgba(0,0,0,0.8); z-index: 10000; display: flex;
-                    align-items: center; justify-content: center; padding: 20px;
-                `;
-                
-                modal.innerHTML = `
-                    <div style="background: white; border-radius: 12px; padding: 30px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto;">
-                        <h3 style="margin-bottom: 20px; color: #333;">📱 Backup Code</h3>
-                        <p style="color: #666; margin-bottom: 15px;">Copy this code and paste it on another device to restore your data:</p>
-                        <textarea readonly style="width: 100%; height: 200px; font-family: monospace; font-size: 12px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; resize: vertical;">${encodedData}</textarea>
-                        <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
-                            <button onclick="navigator.clipboard.writeText('${encodedData}').then(() => alert('Code copied to clipboard!')).catch(() => alert('Please copy the code manually'))" style="padding: 10px 20px; background: #4285f4; color: white; border: none; border-radius: 8px; cursor: pointer;">📋 Copy Code</button>
-                            <button onclick="document.body.removeChild(this.parentElement.parentElement.parentElement)" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer;">✖️ Close</button>
-                        </div>
-                        <p style="font-size: 12px; color: #999; margin-top: 15px;">💡 Tip: Save this code in your notes app or email it to yourself for easy access on other devices.</p>
-                    </div>
-                `;
-                
-                document.body.appendChild(modal);
-                
-            } catch (error) {
-                console.error('Generate code error:', error);
-                alert('❌ Error generating backup code. Please try again.');
-            }
-        }
-
-        function restoreFromCode() {
-            const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                background: rgba(0,0,0,0.8); z-index: 10000; display: flex;
-                align-items: center; justify-content: center; padding: 20px;
-            `;
-            
-            modal.innerHTML = `
-                <div style="background: white; border-radius: 12px; padding: 30px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto;">
-                    <h3 style="margin-bottom: 20px; color: #333;">🔄 Restore from Code</h3>
-                    <p style="color: #666; margin-bottom: 15px;">Paste your backup code here:</p>
-                    <textarea id="restoreCodeInput" placeholder="Paste backup code here..." style="width: 100%; height: 200px; font-family: monospace; font-size: 12px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; resize: vertical;"></textarea>
-                    <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
-                        <button onclick="processRestoreCode()" style="padding: 10px 20px; background: #34a853; color: white; border: none; border-radius: 8px; cursor: pointer;">🔄 Restore Data</button>
-                        <button onclick="document.body.removeChild(this.parentElement.parentElement.parentElement)" style="padding: 10px 20px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer;">✖️ Cancel</button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-        }
-
-        function processRestoreCode() {
-            try {
-                const code = document.getElementById('restoreCodeInput').value.trim();
-                if (!code) {
-                    alert('❌ Please paste a backup code');
-                    return;
-                }
-                
-                const decodedData = atob(code); // Base64 decode
-                const backupData = JSON.parse(decodedData);
-                
-                // Validate backup data structure
-                if (!backupData.expenses || !backupData.utilities) {
-                    throw new Error('Invalid backup code format');
-                }
-                
-                const choice = confirm(
-                    '📋 Restore Options:\n\n' +
-                    '✅ OK = MERGE with existing data\n' +
-                    '❌ Cancel = REPLACE all existing data\n\n' +
-                    `Backup contains:\n` +
-                    `• ${backupData.expenses.length} expenses\n` +
-                    `• ${backupData.utilities.length} utilities\n` +
-                    `• Created: ${new Date(backupData.exportDate).toLocaleDateString()}`
-                );
-                
-                if (choice) {
-                    // Merge data
-                    const existingExpenseIds = new Set(expenses.map(e => e.id));
-                    const existingUtilityIds = new Set(utilities.map(u => u.id));
-                    
-                    const newExpenses = backupData.expenses.filter(e => !existingExpenseIds.has(e.id));
-                    const newUtilities = backupData.utilities.filter(u => !existingUtilityIds.has(u.id));
-                    
-                    expenses = [...expenses, ...newExpenses];
-                    utilities = [...utilities, ...newUtilities];
-                    
-                    alert(`✅ Data merged successfully!\n\nAdded:\n• ${newExpenses.length} new expenses\n• ${newUtilities.length} new utilities`);
-                } else {
-                    // Replace all data
-                    expenses = backupData.expenses;
-                    utilities = backupData.utilities;
-                    
-                    alert(`✅ Data restored successfully!\n\nRestored:\n• ${expenses.length} expenses\n• ${utilities.length} utilities`);
-                }
-                
-                saveDataToStorage();
-                
-                // Close modal
-                const modal = document.querySelector('div[style*="position: fixed"]');
-                if (modal) document.body.removeChild(modal);
-                
-                // Refresh current view
-                if (document.getElementById('expensesPage').classList.contains('hidden') === false) {
-                    renderExpenses();
-                    renderMonthlyStats();
-                    renderExpenseChart();
-                } else if (document.getElementById('utilitiesPage').classList.contains('hidden') === false) {
-                    renderUtilities();
-                }
-                
-            } catch (error) {
-                console.error('Restore error:', error);
-                alert('❌ Invalid backup code. Please check the code and try again.');
+                console.log('Could not save to localStorage, using in-memory storage');
             }
         }
 
@@ -878,32 +748,23 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            /*if ((username === 'Admin' ) && password === 'KrishSonix@18') {
-                currentUser = username;
-                showAlert('loginAlert', 'Login successful!', 'success');
-                setTimeout(() => {
+            if (username === 'Admin' && password === 'Admin') {
+                appData.currentUser = username;
+                showAlert('loginAlert', '✅ Login successful!', 'success');
+                setTimeout(async () => {
                     showExpensesPage();
+                    await autoSyncFromGitHub();
                 }, 1000);
             } else {
-                showAlert('loginAlert', 'Invalid username or password', 'error');
-            }*/
-            if ((username === 'KrishSonix') && password === 'KrishSonix@18') {
-                currentUser = username;
-                showAlert('loginAlert', 'Login successful!', 'success');
-                setTimeout(() => {
-                    showExpensesPage();
-                }, 1000);
+                showAlert('loginAlert', '❌ Invalid username or password', 'error');
             }
-            else {
-                showAlert('loginAlert', 'Invalid username or password', 'error');
-            }
-            
         }
 
         function signOut() {
-            currentUser = null;
+            appData.currentUser = null;
             showLoginPage();
             document.getElementById('loginForm').reset();
+            hideAlert('loginAlert');
         }
 
         // Page Navigation
@@ -947,82 +808,30 @@
             document.getElementById('reportStartDate').value = thirtyDaysAgo.toISOString().split('T')[0];
         }
 
-        function showSettings() {
-            const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                background: rgba(0,0,0,0.8); z-index: 10000; display: flex;
-                align-items: center; justify-content: center; padding: 20px;
-            `;
-            
-            const metadata = localStorage.getItem('expenseTracker_metadata');
-            let lastUpdated = 'Never';
-            
-            if (metadata) {
-                try {
-                    const data = JSON.parse(metadata);
-                    lastUpdated = new Date(data.lastUpdated).toLocaleString();
-                } catch (e) {
-                    lastUpdated = 'Unknown';
-                }
-            }
-            
-            modal.innerHTML = `
-                <div style="background: white; border-radius: 12px; padding: 30px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto;">
-                    <h3 style="margin-bottom: 25px; color: #333; text-align: center;">⚙️ Settings & Data Management</h3>
-                    
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                        <h4 style="color: #333; margin-bottom: 10px;">📊 Current Data</h4>
-                        <p style="margin: 5px 0; color: #666;">• ${expenses.filter(e => e.user === currentUser).length} expenses</p>
-                        <p style="margin: 5px 0; color: #666;">• ${utilities.filter(u => u.user === currentUser).length} utilities</p>
-                        <p style="margin: 5px 0; color: #666;">• Last updated: ${lastUpdated}</p>
-                    </div>
-                    
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="color: #333; margin-bottom: 15px;">💾 Backup & Sync</h4>
-                        <div style="display: grid; gap: 10px;">
-                            <button onclick="exportBackup()" style="padding: 12px 20px; background: #4285f4; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">📥 Export Backup File</button>
-                            <button onclick="importBackup()" style="padding: 12px 20px; background: #34a853; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">📤 Import Backup File</button>
-                            <button onclick="generateBackupCode()" style="padding: 12px 20px; background: #ff9800; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">📱 Generate Backup Code</button>
-                            <button onclick="restoreFromCode()" style="padding: 12px 20px; background: #9c27b0; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">🔄 Restore from Code</button>
-                        </div>
-                    </div>
-                    
-                    <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                        <h4 style="color: #1976d2; margin-bottom: 10px;">💡 Cross-Device Sync Guide</h4>
-                        <p style="color: #1976d2; font-size: 14px; margin-bottom: 8px;"><strong>Method 1 - Backup File:</strong></p>
-                        <p style="color: #1976d2; font-size: 13px; margin-bottom: 10px;">1. Export backup file on this device<br>2. Transfer file (email/cloud/USB)<br>3. Import on new device</p>
-                        <p style="color: #1976d2; font-size: 14px; margin-bottom: 8px;"><strong>Method 2 - Backup Code:</strong></p>
-                        <p style="color: #1976d2; font-size: 13px;">1. Generate backup code<br>2. Copy/save the code<br>3. Paste code on new device</p>
-                    </div>
-                    
-                    <div style="display: flex; justify-content: center;">
-                        <button onclick="document.body.removeChild(this.parentElement.parentElement)" style="padding: 10px 30px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer;">✖️ Close</button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-        }
-
         // Expense Management
         function handleAddExpense(e) {
             e.preventDefault();
             
             const formData = new FormData(e.target);
             const expense = {
-                id: Date.now(),
-                user: currentUser,
+                id: Date.now() + Math.random(), // Ensure unique ID
+                user: appData.currentUser,
                 description: formData.get('description'),
                 amount: parseFloat(formData.get('amount')),
                 category: formData.get('category'),
-                date: formData.get('date')
+                date: formData.get('date'),
+                createdAt: new Date().toISOString()
             };
             
-            expenses.unshift(expense);
+            appData.expenses.unshift(expense);
             saveDataToStorage();
             
-            showAlert('expenseAlert', 'Expense added successfully!', 'success');
+            // Auto-sync to GitHub if configured
+            if (appData.githubConfig.token && appData.githubConfig.repo && appData.githubConfig.owner) {
+                setTimeout(() => syncToGitHub(), 1000);
+            }
+            
+            showAlert('expenseAlert', '✅ Expense added successfully!', 'success');
             document.getElementById('expenseForm').reset();
             document.getElementById('expenseDate').value = new Date().toISOString().split('T')[0];
             
@@ -1032,44 +841,62 @@
         }
 
         function deleteExpense(id) {
-            if (confirm('Are you sure you want to delete this expense?')) {
-                expenses = expenses.filter(expense => expense.id !== id);
+            if (confirm('🗑️ Are you sure you want to delete this expense?')) {
+                appData.expenses = appData.expenses.filter(expense => expense.id !== id);
                 saveDataToStorage();
+                
+                // Auto-sync to GitHub if configured
+                if (appData.githubConfig.token && appData.githubConfig.repo && appData.githubConfig.owner) {
+                    setTimeout(() => syncToGitHub(), 1000);
+                }
+                
                 renderExpenses();
                 renderMonthlyStats();
                 renderExpenseChart();
-                showAlert('expenseAlert', 'Expense deleted successfully!', 'success');
+                showAlert('expenseAlert', '✅ Expense deleted successfully!', 'success');
             }
         }
 
         function renderExpenses() {
             const container = document.getElementById('expensesList');
-            const userExpenses = expenses.filter(expense => expense.user === currentUser);
+            const userExpenses = appData.expenses.filter(expense => expense.user === appData.currentUser);
             
             if (userExpenses.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #666;">No expenses recorded yet.</p>';
+                container.innerHTML = `
+                    <div style="text-align: center; color: #666; padding: 40px;">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📝</div>
+                        <p style="font-size: 18px; margin-bottom: 8px;">No expenses recorded yet</p>
+                        <p style="font-size: 14px;">Add your first expense using the form above</p>
+                    </div>
+                `;
                 return;
             }
             
-            container.innerHTML = userExpenses.map(expense => `
-                <div class="expense-item">
-                    <div class="expense-header">
-                        <div class="expense-amount">₹${expense.amount.toFixed(2)}</div>
-                        <div class="expense-category">${expense.category}</div>
+            container.innerHTML = userExpenses
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map(expense => `
+                    <div class="expense-item">
+                        <div class="expense-layout">
+                            <div>
+                                <div class="expense-description">${expense.description}</div>
+                                <div class="expense-date">📅 ${formatDate(expense.date)}</div>
+                                <div class="expense-category">${expense.category}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="expense-amount">₹${expense.amount.toFixed(2)}</div>
+                                <div class="expense-actions" style="margin-top: 10px;">
+                                    <button class="btn btn-danger btn-small" onclick="deleteExpense(${expense.id})">🗑️ Delete</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="expense-description">${expense.description}</div>
-                    <div class="expense-date">${formatDate(expense.date)}</div>
-                    <div class="expense-actions">
-                        <button class="btn btn-danger btn-small" onclick="deleteExpense(${expense.id})">🗑️ Delete</button>
-                    </div>
-                </div>
-            `).join('');
+                `).join('');
         }
 
-        // Monthly Statistics and Trend Chart
+        // Monthly Statistics and Chart
         function renderMonthlyStats() {
             const container = document.getElementById('monthlyStats');
-            const userExpenses = expenses.filter(expense => expense.user === currentUser);
+            const userExpenses = appData.expenses.filter(expense => expense.user === appData.currentUser);
             
             const currentMonth = new Date().getMonth();
             const currentYear = new Date().getFullYear();
@@ -1111,7 +938,7 @@
                     <div class="stat-label">Average Expense</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value" style="color: ${monthlyChange >= 0 ? '#ea4335' : '#34a853'}">
+                    <div class="stat-value" style="color: ${monthlyChange >= 0 ? '#fc466b' : '#11998e'}">
                         ${monthlyChange >= 0 ? '+' : ''}${monthlyChange.toFixed(1)}%
                     </div>
                     <div class="stat-label">vs Last Month</div>
@@ -1121,13 +948,15 @@
 
         function renderExpenseChart() {
             const canvas = document.getElementById('expenseChart');
+            if (!canvas) return;
+            
             const ctx = canvas.getContext('2d');
             
             if (expenseChart) {
                 expenseChart.destroy();
             }
             
-            const userExpenses = expenses.filter(expense => expense.user === currentUser);
+            const userExpenses = appData.expenses.filter(expense => expense.user === appData.currentUser);
             
             // Get last 6 months of data
             const monthlyData = [];
@@ -1157,15 +986,15 @@
                     datasets: [{
                         label: 'Monthly Expenses (₹)',
                         data: monthlyData,
-                        borderColor: '#4285f4',
-                        backgroundColor: 'rgba(66, 133, 244, 0.1)',
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
                         borderWidth: 3,
                         fill: true,
                         tension: 0.4,
-                        pointBackgroundColor: '#4285f4',
+                        pointBackgroundColor: '#667eea',
                         pointBorderColor: '#fff',
-                        pointBorderWidth: 2,
-                        pointRadius: 6
+                        pointBorderWidth: 3,
+                        pointRadius: 8
                     }]
                 },
                 options: {
@@ -1174,7 +1003,14 @@
                     plugins: {
                         legend: {
                             display: true,
-                            position: 'top'
+                            position: 'top',
+                            labels: {
+                                color: '#666',
+                                font: {
+                                    size: 14,
+                                    weight: '500'
+                                }
+                            }
                         }
                     },
                     scales: {
@@ -1183,76 +1019,105 @@
                             ticks: {
                                 callback: function(value) {
                                     return '₹' + value.toLocaleString();
-                                }
+                                },
+                                color: '#666'
+                            },
+                            grid: {
+                                color: 'rgba(255,255,255,0.2)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#666'
+                            },
+                            grid: {
+                                color: 'rgba(255,255,255,0.2)'
                             }
                         }
                     },
                     elements: {
                         point: {
-                            hoverRadius: 8
+                            hoverRadius: 10
                         }
                     }
                 }
             });
         }
 
-        // Utility Management (keeping existing functionality)
+        // Utility Management
         function addUtility() {
-            const utilityName = document.getElementById('utilityName').value;
+            const utilityName = document.getElementById('utilityName').value.trim();
             const startDate = document.getElementById('startDate').value;
             
             if (!utilityName || !startDate) {
-                alert('Please fill in all fields');
+                alert('❌ Please fill in all fields');
                 return;
             }
             
             const utility = {
-                id: Date.now(),
-                user: currentUser,
+                id: Date.now() + Math.random(),
+                user: appData.currentUser,
                 name: utilityName,
                 startDate: startDate,
                 endDate: null,
-                status: 'pending'
+                status: 'pending',
+                createdAt: new Date().toISOString()
             };
             
-            utilities.push(utility);
+            appData.utilities.unshift(utility);
             saveDataToStorage();
             
             document.getElementById('utilityName').value = '';
             document.getElementById('startDate').value = new Date().toISOString().split('T')[0];
             
             renderUtilities();
+            showSyncStatus('✅ Utility added successfully!', 'success');
         }
 
         function renderUtilities() {
             const container = document.getElementById('utilitiesList');
-            const userUtilities = utilities.filter(utility => utility.user === currentUser);
+            const userUtilities = appData.utilities.filter(utility => utility.user === appData.currentUser);
             
             if (userUtilities.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #666;">No utilities added yet.</p>';
+                container.innerHTML = `
+                    <div style="text-align: center; color: #666; padding: 40px;">
+                        <div style="font-size: 48px; margin-bottom: 16px;">🔧</div>
+                        <p style="font-size: 18px; margin-bottom: 8px;">No utilities added yet</p>
+                        <p style="font-size: 14px;">Add your first utility using the form above</p>
+                    </div>
+                `;
                 return;
             }
             
-            container.innerHTML = userUtilities.map(utility => `
-                <div class="utility-item">
-                    <div class="utility-info">
-                        <div>
-                            <div class="utility-name">${utility.name}</div>
-                            <div class="utility-dates">Start: ${formatDate(utility.startDate)}${utility.endDate ? ' | End: ' + formatDate(utility.endDate) : ''}</div>
+            container.innerHTML = userUtilities
+                .sort((a, b) => new Date(b.createdAt || b.startDate) - new Date(a.createdAt || a.startDate))
+                .map(utility => `
+                    <div class="utility-item">
+                        <div class="utility-info">
+                            <div>
+                                <div class="utility-name">${utility.name}</div>
+                                <div class="utility-dates">
+                                    📅 Start: ${formatDate(utility.startDate)}
+                                    ${utility.endDate ? ' | ✅ End: ' + formatDate(utility.endDate) : ''}
+                                </div>
+                                <div class="status-badge status-${utility.status}">
+                                    ${utility.status === 'completed' ? '✅ Completed' : '⏳ Pending'}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="utility-actions">
+                            <button class="btn ${utility.status === 'completed' ? 'btn-success' : 'btn-primary'}" 
+                                    onclick="toggleUtilityStatus(${utility.id})">
+                                ${utility.status === 'completed' ? '✅ Completed' : '✓ Mark Complete'}
+                            </button>
+                            <button class="btn btn-danger btn-small" onclick="deleteUtility(${utility.id})">🗑️</button>
                         </div>
                     </div>
-                    <div class="utility-actions">
-                        <button class="btn btn-success" onclick="toggleUtilityStatus(${utility.id})">
-                            ${utility.status === 'completed' ? 'Completed' : 'Mark Complete'}
-                        </button>
-                        <button class="btn btn-danger" onclick="deleteUtility(${utility.id})">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
+                `).join('');
         }
 
         function toggleUtilityStatus(id) {
-            const utility = utilities.find(u => u.id === id);
+            const utility = appData.utilities.find(u => u.id === id);
             if (utility) {
                 if (utility.status === 'pending') {
                     utility.status = 'completed';
@@ -1267,28 +1132,35 @@
         }
 
         function deleteUtility(id) {
-            if (confirm('Are you sure you want to delete this utility?')) {
-                utilities = utilities.filter(u => u.id !== id);
+            if (confirm('🗑️ Are you sure you want to delete this utility?')) {
+                appData.utilities = appData.utilities.filter(u => u.id !== id);
                 saveDataToStorage();
                 renderUtilities();
+                showSyncStatus('✅ Utility deleted successfully!', 'success');
             }
         }
 
         function exportUtilitiesReport() {
-            const userUtilities = utilities.filter(utility => utility.user === currentUser);
-            const csv = 'Name,Start Date,End Date,Status\n' + 
-                userUtilities.map(u => `"${u.name}","${u.startDate}","${u.endDate || 'N/A'}","${u.status}"`).join('\n');
+            const userUtilities = appData.utilities.filter(utility => utility.user === appData.currentUser);
             
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'utilities-report.csv';
-            a.click();
-            window.URL.revokeObjectURL(url);
+            if (userUtilities.length === 0) {
+                alert('❌ No utilities to export');
+                return;
+            }
+            
+            const csv = 'Name,Start Date,End Date,Status,Days Active\n' + 
+                userUtilities.map(u => {
+                    const startDate = new Date(u.startDate);
+                    const endDate = u.endDate ? new Date(u.endDate) : new Date();
+                    const daysActive = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+                    return `"${u.name}","${u.startDate}","${u.endDate || 'Active'}","${u.status}","${daysActive}"`;
+                }).join('\n');
+            
+            downloadCSV(csv, 'utilities-report.csv');
+            showSyncStatus('✅ Utilities report exported!', 'success');
         }
 
-        // Report Generation Functions
+        // Report Generation
         let currentReportData = [];
 
         function generateReport() {
@@ -1297,16 +1169,16 @@
             const category = document.getElementById('reportCategory').value;
             
             if (!startDate || !endDate) {
-                showAlert('reportAlert', 'Please select both start and end dates', 'error');
+                showAlert('reportAlert', '❌ Please select both start and end dates', 'error');
                 return;
             }
             
             if (new Date(startDate) > new Date(endDate)) {
-                showAlert('reportAlert', 'Start date cannot be after end date', 'error');
+                showAlert('reportAlert', '❌ Start date cannot be after end date', 'error');
                 return;
             }
             
-            let filteredExpenses = expenses.filter(expense => expense.user === currentUser);
+            let filteredExpenses = appData.expenses.filter(expense => expense.user === appData.currentUser);
             
             filteredExpenses = filteredExpenses.filter(expense => {
                 const expenseDate = new Date(expense.date);
@@ -1331,7 +1203,12 @@
                 resultsContainer.classList.remove('hidden');
                 summaryContainer.innerHTML = 'No expenses found for the selected criteria';
                 statsContainer.innerHTML = '';
-                expensesContainer.innerHTML = '<p style="text-align: center; color: #666;">No expenses found.</p>';
+                expensesContainer.innerHTML = `
+                    <div style="text-align: center; color: #666; padding: 40px;">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📊</div>
+                        <p style="font-size: 18px;">No expenses found</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -1368,7 +1245,7 @@
                     <div class="stat-label">Total Expenses</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${topCategory}</div>
+                    <div class="stat-value" style="font-size: 16px;">${topCategory}</div>
                     <div class="stat-label">Top Category</div>
                 </div>
             `;
@@ -1388,12 +1265,12 @@
                 `).join('');
             
             resultsContainer.classList.remove('hidden');
-            showAlert('reportAlert', 'Report generated successfully!', 'success');
+            showAlert('reportAlert', '✅ Report generated successfully!', 'success');
         }
 
         function exportReport() {
             if (currentReportData.length === 0) {
-                showAlert('reportAlert', 'Please generate a report first', 'error');
+                showAlert('reportAlert', '❌ Please generate a report first', 'error');
                 return;
             }
             
@@ -1416,15 +1293,8 @@
                 .map(expense => `"${expense.date}","${expense.description}","${expense.category}","${expense.amount}"`)
                 .join('\n');
             
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `expense-report-${startDate}-to-${endDate}.csv`;
-            a.click();
-            window.URL.revokeObjectURL(url);
-            
-            showAlert('reportAlert', 'Report exported successfully!', 'success');
+            downloadCSV(csvContent, `expense-report-${startDate}-to-${endDate}.csv`);
+            showAlert('reportAlert', '✅ Report exported successfully!', 'success');
         }
 
         function clearReport() {
@@ -1434,34 +1304,481 @@
             document.getElementById('reportEndDate').value = '';
             document.getElementById('reportCategory').value = 'all';
             
+            // Set default dates
             const today = new Date();
             const thirtyDaysAgo = new Date(today);
             thirtyDaysAgo.setDate(today.getDate() - 30);
             
             document.getElementById('reportEndDate').value = today.toISOString().split('T')[0];
             document.getElementById('reportStartDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+            
+            hideAlert('reportAlert');
+        }
+
+        // Settings and Data Management
+        function showSettings() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            
+            const isGitHubConfigured = appData.githubConfig.token && appData.githubConfig.repo && appData.githubConfig.owner;
+            const userExpenseCount = appData.expenses.filter(e => e.user === appData.currentUser).length;
+            const userUtilityCount = appData.utilities.filter(u => u.user === appData.currentUser).length;
+            const lastSyncText = appData.lastSync ? new Date(appData.lastSync).toLocaleString() : 'Never';
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3 style="margin-bottom: 25px; color: #333; text-align: center;">⚙️ Settings & Data Management</h3>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <h4 style="color: #333; margin-bottom: 10px;">📊 Current Data</h4>
+                        <p style="margin: 5px 0; color: #666;">• ${userExpenseCount} expenses</p>
+                        <p style="margin: 5px 0; color: #666;">• ${userUtilityCount} utilities</p>
+                        <p style="margin: 5px 0; color: #666;">• Last GitHub sync: ${lastSyncText}</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #333; margin-bottom: 15px;">🔗 GitHub Cloud Sync</h4>
+                        <div style="display: grid; gap: 10px;">
+                            <button onclick="showGitHubSettings()" class="btn btn-primary" style="justify-content: center;">
+                                ${isGitHubConfigured ? '✅ GitHub Settings (Configured)' : '🔗 Setup GitHub Sync'}
+                            </button>
+                            ${isGitHubConfigured ? `
+                                <button onclick="syncToGitHub()" class="btn" style="justify-content: center; background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); border: none;">⬆️ Sync to GitHub</button>
+                                <button onclick="syncFromGitHub()" class="btn" style="justify-content: center; background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border: none;">⬇️ Sync from GitHub</button>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: #333; margin-bottom: 15px;">💾 Local Backup</h4>
+                        <div style="display: grid; gap: 10px;">
+                            <button onclick="exportBackup()" class="btn btn-primary" style="justify-content: center;">📥 Export Backup File</button>
+                            <button onclick="importBackup()" class="btn btn-success" style="justify-content: center;">📤 Import Backup File</button>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h4>🚀 Recommended: GitHub Sync</h4>
+                        <p style="font-size: 14px; margin-bottom: 8px;"><strong>Benefits:</strong></p>
+                        <p style="font-size: 13px; line-height: 1.5;">• Access data from any device<br>• Automatic cloud backup<br>• Version history<br>• Secure private repository</p>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center; margin-top: 20px;">
+                        <button onclick="closeModal()" class="btn" style="justify-content: center;">✖️ Close</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('.modal');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+
+        // GitHub Integration
+        function showGitHubSettings() {
+            closeModal(); // Close settings modal first
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3 style="margin-bottom: 25px; color: #333; text-align: center;">🔗 GitHub Sync Setup</h3>
+                    
+                    <div class="info-box">
+                        <h4>📋 Setup Instructions:</h4>
+                        <div style="font-size: 14px; line-height: 1.6;">
+                            <p><strong>1. Create a Private Repository:</strong></p>
+                            <p style="margin-bottom: 10px;">• Go to GitHub.com → New Repository<br>• Name: expense-tracker-data<br>• Set to Private ✓</p>
+                            
+                            <p><strong>2. Create Personal Access Token:</strong></p>
+                            <p style="margin-bottom: 10px;">• GitHub → Settings → Developer settings<br>• Personal Access Tokens → Generate new<br>• Select: repo (full control)</p>
+                            
+                            <p><strong>3. Fill the form below and save</strong></p>
+                        </div>
+                    </div>
+                    
+                    <form id="githubConfigForm">
+                        <div class="form-group">
+                            <label>GitHub Username:</label>
+                            <input type="text" id="githubOwner" value="${appData.githubConfig.owner}" placeholder="your-github-username">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Repository Name:</label>
+                            <input type="text" id="githubRepo" value="${appData.githubConfig.repo}" placeholder="expense-tracker-data">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Personal Access Token:</label>
+                            <input type="password" id="githubToken" value="${appData.githubConfig.token}" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+                            <small style="color: #666;">Your token is stored locally and never shared</small>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; margin-top: 25px; flex-wrap: wrap; justify-content: center;">
+                            <button type="button" onclick="saveGitHubSettings()" class="btn btn-primary">💾 Save Settings</button>
+                            <button type="button" onclick="testGitHubConnection()" class="btn btn-success">🔍 Test Connection</button>
+                            <button type="button" onclick="closeModal()" class="btn">✖️ Close</button>
+                        </div>
+                    </form>
+                    
+                    <div class="security-note">
+                        <p style="color: #856404; font-size: 14px; margin: 0;">
+                            <strong>🔐 Security Note:</strong> Your GitHub token is stored locally in your browser and is never transmitted to any external service except GitHub's API.
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function saveGitHubSettings() {
+            const owner = document.getElementById('githubOwner').value.trim();
+            const repo = document.getElementById('githubRepo').value.trim();
+            const token = document.getElementById('githubToken').value.trim();
+            
+            if (!owner || !repo || !token) {
+                alert('❌ Please fill in all fields');
+                return;
+            }
+            
+            appData.githubConfig = {
+                ...appData.githubConfig,
+                owner,
+                repo,
+                token
+            };
+            
+            saveDataToStorage();
+            alert('✅ GitHub settings saved successfully!');
+            closeModal();
+        }
+
+        async function testGitHubConnection() {
+            const owner = document.getElementById('githubOwner').value.trim();
+            const repo = document.getElementById('githubRepo').value.trim();
+            const token = document.getElementById('githubToken').value.trim();
+            
+            if (!owner || !repo || !token) {
+                alert('❌ Please fill in all fields first');
+                return;
+            }
+            
+            try {
+                showSyncStatus('Testing connection...', 'info');
+                
+                const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (response.ok) {
+                    showSyncStatus('✅ Connection successful!', 'success');
+                } else if (response.status === 404) {
+                    showSyncStatus('❌ Repository not found. Please check owner/repo names.', 'error');
+                } else if (response.status === 401) {
+                    showSyncStatus('❌ Invalid token or insufficient permissions.', 'error');
+                } else {
+                    showSyncStatus('❌ Connection failed. Please check your settings.', 'error');
+                }
+            } catch (error) {
+                showSyncStatus('❌ Network error. Please check your internet connection.', 'error');
+                console.error('GitHub connection test failed:', error);
+            }
+        }
+
+        async function syncToGitHub() {
+            if (!appData.githubConfig.token || !appData.githubConfig.repo || !appData.githubConfig.owner) {
+                alert('❌ Please configure GitHub settings first');
+                return;
+            }
+
+            try {
+                showSyncStatus('⬆️ Syncing to GitHub...', 'info');
+                
+                const userData = {
+                    expenses: appData.expenses.filter(e => e.user === appData.currentUser),
+                    utilities: appData.utilities.filter(u => u.user === appData.currentUser),
+                    lastSync: new Date().toISOString(),
+                    version: '1.0'
+                };
+
+                const content = btoa(JSON.stringify(userData, null, 2));
+                const fileName = `${appData.currentUser}_expense_data.json`;
+
+                // Try to get existing file SHA
+                let sha = null;
+                try {
+                    const getResponse = await fetch(`https://api.github.com/repos/${appData.githubConfig.owner}/${appData.githubConfig.repo}/contents/${fileName}`, {
+                        headers: {
+                            'Authorization': `token ${appData.githubConfig.token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    
+                    if (getResponse.ok) {
+                        const fileData = await getResponse.json();
+                        sha = fileData.sha;
+                    }
+                } catch (error) {
+                    console.log('File does not exist yet, creating new one');
+                }
+
+                // Create or update file
+                const putData = {
+                    message: `Update expense data - ${new Date().toLocaleString()}`,
+                    content: content,
+                    branch: appData.githubConfig.branch
+                };
+
+                if (sha) {
+                    putData.sha = sha;
+                }
+
+                const putResponse = await fetch(`https://api.github.com/repos/${appData.githubConfig.owner}/${appData.githubConfig.repo}/contents/${fileName}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${appData.githubConfig.token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(putData)
+                });
+
+                if (putResponse.ok) {
+                    appData.lastSync = new Date().toISOString();
+                    saveDataToStorage();
+                    showSyncStatus('✅ Successfully synced to GitHub!', 'success');
+                } else {
+                    const errorData = await putResponse.json();
+                    console.error('GitHub sync error:', errorData);
+                    showSyncStatus('❌ Failed to sync to GitHub. Check console for details.', 'error');
+                }
+            } catch (error) {
+                console.error('GitHub sync error:', error);
+                showSyncStatus('❌ Network error during sync. Please try again.', 'error');
+            }
+        }
+
+        async function syncFromGitHub() {
+            if (!appData.githubConfig.token || !appData.githubConfig.repo || !appData.githubConfig.owner) {
+                alert('❌ Please configure GitHub settings first');
+                return;
+            }
+
+            try {
+                showSyncStatus('⬇️ Syncing from GitHub...', 'info');
+                
+                const fileName = `${appData.currentUser}_expense_data.json`;
+                
+                const response = await fetch(`https://api.github.com/repos/${appData.githubConfig.owner}/${appData.githubConfig.repo}/contents/${fileName}`, {
+                    headers: {
+                        'Authorization': `token ${appData.githubConfig.token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (response.ok) {
+                    const fileData = await response.json();
+                    const content = atob(fileData.content);
+                    const userData = JSON.parse(content);
+
+                    // Merge data (keeping existing data from other users)
+                    const otherUserExpenses = appData.expenses.filter(e => e.user !== appData.currentUser);
+                    const otherUserUtilities = appData.utilities.filter(u => u.user !== appData.currentUser);
+
+                    appData.expenses = [...otherUserExpenses, ...userData.expenses];
+                    appData.utilities = [...otherUserUtilities, ...userData.utilities];
+                    appData.lastSync = userData.lastSync || new Date().toISOString();
+
+                    saveDataToStorage();
+                    
+                    // Refresh current page
+                    if (!document.getElementById('expensesPage').classList.contains('hidden')) {
+                        showExpensesPage();
+                    } else if (!document.getElementById('utilitiesPage').classList.contains('hidden')) {
+                        showUtilitiesPage();
+                    }
+
+                    showSyncStatus('✅ Successfully synced from GitHub!', 'success');
+                } else if (response.status === 404) {
+                    showSyncStatus('ℹ️ No data found on GitHub. Upload some data first.', 'info');
+                } else {
+                    showSyncStatus('❌ Failed to sync from GitHub. Check your settings.', 'error');
+                }
+            } catch (error) {
+                console.error('GitHub sync error:', error);
+                showSyncStatus('❌ Error parsing data from GitHub.', 'error');
+            }
+        }
+
+        async function autoSyncFromGitHub() {
+            if (appData.githubConfig.token && appData.githubConfig.repo && appData.githubConfig.owner) {
+                await syncFromGitHub();
+            }
+        }
+
+        // Backup Functions
+        function exportBackup() {
+            const userExpenseCount = appData.expenses.filter(e => e.user === appData.currentUser).length;
+            const userUtilityCount = appData.utilities.filter(u => u.user === appData.currentUser).length;
+            
+            if (userExpenseCount === 0 && userUtilityCount === 0) {
+                alert('❌ No data to export');
+                return;
+            }
+
+            const backupData = {
+                expenses: appData.expenses.filter(e => e.user === appData.currentUser),
+                utilities: appData.utilities.filter(u => u.user === appData.currentUser),
+                exportDate: new Date().toISOString(),
+                version: '1.0',
+                user: appData.currentUser
+            };
+
+            const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `expense-tracker-backup-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showSyncStatus('✅ Backup exported successfully!', 'success');
+        }
+
+        function importBackup() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    try {
+                        const backupData = JSON.parse(event.target.result);
+                        
+                        if (!backupData.expenses || !backupData.utilities) {
+                            alert('❌ Invalid backup file format');
+                            return;
+                        }
+
+                        if (confirm(`🔄 Import ${backupData.expenses.length} expenses and ${backupData.utilities.length} utilities?\n\nThis will replace your current data.`)) {
+                            // Remove current user's data
+                            appData.expenses = appData.expenses.filter(e => e.user !== appData.currentUser);
+                            appData.utilities = appData.utilities.filter(u => u.user !== appData.currentUser);
+
+                            // Add imported data (ensure it belongs to current user)
+                            const importedExpenses = backupData.expenses.map(e => ({
+                                ...e,
+                                user: appData.currentUser
+                            }));
+                            
+                            const importedUtilities = backupData.utilities.map(u => ({
+                                ...u,
+                                user: appData.currentUser
+                            }));
+
+                            appData.expenses = [...appData.expenses, ...importedExpenses];
+                            appData.utilities = [...appData.utilities, ...importedUtilities];
+
+                            saveDataToStorage();
+                            
+                            // Refresh current page
+                            if (!document.getElementById('expensesPage').classList.contains('hidden')) {
+                                showExpensesPage();
+                            } else if (!document.getElementById('utilitiesPage').classList.contains('hidden')) {
+                                showUtilitiesPage();
+                            }
+
+                            showSyncStatus('✅ Backup imported successfully!', 'success');
+                        }
+                    } catch (error) {
+                        console.error('Import error:', error);
+                        alert('❌ Error reading backup file. Please check the file format.');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            
+            input.click();
         }
 
         // Utility Functions
         function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-IN', {
-                year: 'numeric',
+            return new Date(dateString).toLocaleDateString('en-GB', {
+                day: '2-digit',
                 month: 'short',
-                day: 'numeric'
+                year: 'numeric'
             });
+        }
+
+        function downloadCSV(csvContent, filename) {
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         }
 
         function showAlert(containerId, message, type) {
             const container = document.getElementById(containerId);
             container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
-            setTimeout(() => {
-                container.innerHTML = '';
-            }, 5000);
+            setTimeout(() => hideAlert(containerId), 5000);
         }
 
-        // Initialize the application
-        init();
+        function hideAlert(containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+        }
+
+        function showSyncStatus(message, type) {
+            // Remove existing status
+            const existing = document.querySelector('.sync-status');
+            if (existing) {
+                document.body.removeChild(existing);
+            }
+
+            const status = document.createElement('div');
+            status.className = 'sync-status';
+            
+            const colors = {
+                success: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
+                error: 'linear-gradient(135deg, #fc466b 0%, #3f5efb 100%)',
+                info: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+            };
+            
+            status.style.background = colors[type] || colors.info;
+            status.textContent = message;
+            
+            document.body.appendChild(status);
+            
+            setTimeout(() => {
+                if (status.parentNode) {
+                    document.body.removeChild(status);
+                }
+            }, 4000);
+        }
+
+        // Initialize app when page loads
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
