@@ -223,14 +223,14 @@
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         }
         
-        .utility-info, .expense-header {
+        .utility-info, .expense-info {
             display: flex;
             align-items: flex-start;
             gap: 15px;
             flex: 1;
         }
         
-        .utility-details {
+        .utility-details, .expense-details {
             flex: 1;
         }
         
@@ -254,7 +254,7 @@
             margin-bottom: 8px;
         }
         
-        .utility-usage-info {
+        .utility-usage-info, .expense-meta-info {
             color: #4a5568;
             font-size: 13px;
             background: #f7fafc;
@@ -268,6 +268,14 @@
             gap: 10px;
             flex-wrap: wrap;
             align-items: flex-start;
+        }
+        
+        .expense-amount-section {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
         }
         
         .status-badge {
@@ -295,6 +303,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            margin-bottom: 8px;
         }
         
         .expense-category {
@@ -305,6 +314,7 @@
             font-size: 12px;
             font-weight: 500;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            display: inline-block;
         }
         
         .stat-card {
@@ -466,12 +476,6 @@
             border-left: 4px solid #ffc107;
         }
         
-        .expense-layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        
         .days-badge {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -483,45 +487,108 @@
             display: inline-block;
         }
         
-        @media (max-width: 768px) {
+        /* Enhanced responsive design */
+        @media (max-width: 1024px) {
             .container {
                 padding: 15px;
+            }
+            
+            .monthly-stats {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .stat-value {
+                font-size: 24px;
+            }
+            
+            .chart-container {
+                height: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
             }
             
             .header {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 10px;
             }
             
             .nav-buttons {
+                justify-content: center;
+                gap: 8px;
+            }
+            
+            .btn {
+                padding: 10px 16px;
+                font-size: 13px;
+                min-width: auto;
+                flex: 1;
                 justify-content: center;
             }
             
             .form-row, .form-row-triple {
                 grid-template-columns: 1fr;
+                gap: 15px;
             }
             
             .card {
                 padding: 20px;
+                margin-bottom: 20px;
+                border-radius: 16px;
             }
             
             .utilities-header {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 10px;
             }
             
             .utility-item, .expense-item {
                 flex-direction: column;
                 align-items: stretch;
                 gap: 15px;
+                padding: 20px;
+            }
+            
+            .utility-info, .expense-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .expense-amount-section {
+                align-items: stretch;
+                text-align: left;
+            }
+            
+            .expense-amount {
+                font-size: 24px;
             }
             
             .utility-actions, .expense-actions {
                 justify-content: center;
+                gap: 8px;
             }
             
             .monthly-stats {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            
+            .stat-card {
+                padding: 16px;
+            }
+            
+            .stat-value {
+                font-size: 20px;
+            }
+            
+            .stat-label {
+                font-size: 12px;
             }
             
             .logo {
@@ -529,8 +596,124 @@
                 justify-content: center;
             }
             
-            .expense-layout {
+            .chart-container {
+                height: 250px;
+                padding: 15px;
+            }
+            
+            .page-title {
+                font-size: 24px;
+                text-align: center;
+            }
+            
+            .utilities-header .page-title {
+                margin-bottom: 10px;
+            }
+            
+            .modal-content {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .sync-status {
+                right: 10px;
+                top: 10px;
+                max-width: 250px;
+                font-size: 13px;
+                padding: 10px 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 8px;
+            }
+            
+            .monthly-stats {
                 grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .stat-card {
+                padding: 12px;
+            }
+            
+            .stat-value {
+                font-size: 18px;
+            }
+            
+            .utility-item, .expense-item {
+                padding: 16px;
+            }
+            
+            .utility-name, .expense-description {
+                font-size: 16px;
+            }
+            
+            .expense-amount {
+                font-size: 20px;
+            }
+            
+            .btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .chart-container {
+                height: 200px;
+                padding: 10px;
+            }
+            
+            .logo {
+                font-size: 20px;
+            }
+            
+            .days-badge {
+                margin-left: 5px;
+                padding: 3px 8px;
+                font-size: 11px;
+            }
+            
+            .sync-status {
+                right: 5px;
+                top: 5px;
+                max-width: 200px;
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+            
+            .form-group input, .form-group select, .form-group textarea {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .nav-buttons {
+                grid-template-columns: 1fr 1fr;
+                display: grid;
+                gap: 5px;
+            }
+            
+            .btn {
+                padding: 6px 8px;
+                font-size: 11px;
+            }
+            
+            .expense-amount {
+                font-size: 18px;
+            }
+            
+            .utility-name, .expense-description {
+                font-size: 15px;
+            }
+            
+            .stat-value {
+                font-size: 16px;
             }
         }
     </style>
@@ -623,7 +806,13 @@
         </div>
         
         <div class="card">
-            <h3 style="margin-bottom: 20px; color: #333; font-size: 24px;">💸 Recent Expenses</h3>
+            <div class="utilities-header">
+                <h3 style="color: #333; margin: 0; font-size: 24px;">💸 Recent Expenses</h3>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-warning" onclick="syncToGitHub('expenses')">⬆️ Sync to GitHub</button>
+                    <button class="btn" onclick="exportExpensesReport()" style="color : black;"">📊 Export Report</button>
+                </div>
+            </div>
             <div id="expensesList"></div>
         </div>
     </div>
@@ -811,7 +1000,7 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            if (username === 'Admin' && password === 'Admin') {
+            if (username === 'Admin' && password === 'KrishSonix@18') {
                 appData.currentUser = username;
                 showAlert('loginAlert', '✅ Login successful!', 'success');
                 setTimeout(async () => {
@@ -939,21 +1128,48 @@
                 .sort((a, b) => new Date(b.date) - new Date(a.date))
                 .map(expense => `
                     <div class="expense-item">
-                        <div class="expense-layout">
-                            <div>
+                        <div class="expense-info">
+                            <div class="expense-details">
                                 <div class="expense-description">${expense.description}</div>
                                 <div class="expense-date">📅 ${formatDate(expense.date)}</div>
-                                <div class="expense-category">${expense.category}</div>
-                            </div>
-                            <div style="text-align: right;">
-                                <div class="expense-amount">₹${expense.amount.toFixed(2)}</div>
-                                <div class="expense-actions" style="margin-top: 10px;">
-                                    <button class="btn btn-danger btn-small" onclick="deleteExpense(${expense.id})">🗑️ Delete</button>
+                                <div style="margin-top: 8px;">
+                                    <span class="expense-category">${expense.category}</span>
                                 </div>
+                                <div class="expense-meta-info">
+                                    💳 Added on ${formatDate(expense.createdAt?.split('T')[0] || expense.date)}
+                                    ${expense.createdAt ? ' at ' + new Date(expense.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="expense-amount-section">
+                            <div class="expense-amount">₹${expense.amount.toFixed(2)}</div>
+                            <div class="expense-actions">
+                                <button class="btn btn-danger btn-small" onclick="deleteExpense(${expense.id})">🗑️ Delete</button>
                             </div>
                         </div>
                     </div>
                 `).join('');
+        }
+
+        // Export function for expenses
+        function exportExpensesReport() {
+            const userExpenses = appData.expenses.filter(expense => expense.user === appData.currentUser);
+            
+            if (userExpenses.length === 0) {
+                alert('❌ No expenses to export');
+                return;
+            }
+            
+            const totalAmount = userExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+            
+            const csv = 'Date,Description,Category,Amount\n' + 
+                userExpenses
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .map(e => `"${e.date}","${e.description}","${e.category}","${e.amount}"`)
+                .join('\n');
+            
+            downloadCSV(csv, `expenses-report-${new Date().toISOString().split('T')[0]}.csv`);
+            showSyncStatus('✅ Expenses report exported!', 'success');
         }
 
         // Monthly Statistics and Chart
@@ -1470,11 +1686,11 @@
                     <div class="info-box">
                         <h4>🚀 Enhanced Features</h4>
                         <p style="font-size: 14px; margin-bottom: 8px;"><strong>New in this version:</strong></p>
-                        <p style="font-size: 13px; line-height: 1.5;">• Enhanced utilities with descriptions & usage tracking<br>• Automatic GitHub sync for all data<br>• Mobile-optimized GitHub API calls<br>• Days counter for active/completed utilities<br>• Improved sync status notifications</p>
+                        <p style="font-size: 13px; line-height: 1.5;">• Enhanced utilities with descriptions & usage tracking<br>• Automatic GitHub sync for all data<br>• Mobile-optimized GitHub API calls<br>• Days counter for active/completed utilities<br>• Improved sync status notifications<br>• Fully responsive design for all devices</p>
                     </div>
                     
                     <div style="display: flex; justify-content: center; margin-top: 20px;">
-                        <button onclick="closeModal()" class="btn" style="justify-content: center;">✖️ Close</button>
+                        <button onclick="closeModal()" class="btn" style="justify-content: center;color:black">✖️ Close</button>
                     </div>
                 </div>
             `;
