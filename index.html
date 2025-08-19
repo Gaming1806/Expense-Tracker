@@ -1387,7 +1387,7 @@
                 .map(utility => {
                     const daysUsed = calculateUtilityDays(utility.startDate, utility.endDate);
                     const daysText = utility.status === 'completed' ? 
-                        `Total days used: ${daysUsed}` : 
+                        `Total days used: ${daysUsed+1}` : 
                         `Days active: ${daysUsed}`;
                     
                     return `
@@ -1396,7 +1396,8 @@
                                 <div class="utility-details">
                                     <div class="utility-name">
                                         ${utility.name}
-                                        <span class="days-badge">${daysUsed} days</span>
+                                        ${utility.status === 'completed' ? 
+                                        `<span class="days-badge">${daysUsed+1} days</span>` : `<span class="days-badge">${daysUsed} days</span>`}
                                     </div>
                                     ${utility.description ? `<div class="utility-description">${utility.description}</div>` : ''}
                                     <div class="utility-dates">
