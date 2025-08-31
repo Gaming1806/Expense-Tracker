@@ -409,6 +409,11 @@
             color: #155724;
         }
         
+        .alert-info {
+            background: linear-gradient(135deg, #b3e5fc 0%, #81d4fa 100%);
+            color: #01579b;
+        }
+        
         .sync-status {
             position: fixed;
             top: 20px;
@@ -737,9 +742,6 @@
                     🔐 Login
                 </button>
             </form>
-            <!--<div style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
-                Demo: Username: <strong>Admin</strong>, Password: <strong>Admin</strong>
-            </div>-->
         </div>
     </div>
 
@@ -810,7 +812,7 @@
                 <h3 style="color: #333; margin: 0; font-size: 24px;">💸 Recent Expenses</h3>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                     <button class="btn btn-warning" onclick="syncToGitHub('expenses')">⬆️ Sync to GitHub</button>
-                    <button class="btn" onclick="exportExpensesReport()" style="color : black;"">📊 Export Report</button>
+                    <button class="btn" onclick="exportExpensesReport()" style="color: black;">📊 Export Report</button>
                 </div>
             </div>
             <div id="expensesList"></div>
@@ -932,10 +934,11 @@
             expenses: [],
             utilities: [],
             githubConfig: {
-                token: '',
+                token: '', // Replace with your actual token
                 repo: 'expense-tracker-data',
                 owner: 'Gaming1806',
-                branch: 'main'
+                branch: 'main',
+                credentialsFile: 'credentials.json' // Replace with your actual file path
             },
             lastSync: null
         };
@@ -994,21 +997,61 @@
             }
         }
 
+        // GitHub API Functions
+        async function fetchCredentialsFromGitHub() {
+            const { token, owner, repo, credentialsFile } = appData.githubConfig;
+            
+            try {
+                const response = await fetch(
+                    `https://api.github.com/repos/${owner}/${repo}/contents/${credentialsFile}`,
+                    {
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3.raw'
+                        }
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(`GitHub API error: ${response.status}`);
+                }
+
+                const credentials = await response.json();
+                return credentials;
+            } catch (error) {
+                console.error('Failed to fetch credentials from GitHub:', error);
+                throw error;
+            }
+        }
+
         // Authentication
-        function handleLogin(e) {
+        async function handleLogin(e) {
             e.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            if (username === 'Admin' && password === 'KrishSonix@18') {
-                appData.currentUser = username;
-                showAlert('loginAlert', '✅ Login successful!', 'success');
-                setTimeout(async () => {
-                    showExpensesPage();
-                    await autoSyncFromGitHub();
-                }, 1000);
-            } else {
-                showAlert('loginAlert', '❌ Invalid username or password', 'error');
+            showAlert('loginAlert', '🔄 Verifying credentials...', 'info');
+            
+            try {
+                // Fetch credentials from GitHub repository
+                const credentials = await fetchCredentialsFromGitHub();
+                
+                const validUsername = credentials.username;
+                const validPassword = credentials.password;
+                
+                if (username === validUsername && password === validPassword) {
+                    appData.currentUser = username;
+                    showAlert('loginAlert', '✅ Login successful!', 'success');
+                    setTimeout(async () => {
+                        showExpensesPage();
+                        await autoSyncFromGitHub();
+                    }, 1000);
+                } else {
+                    showAlert('loginAlert', '❌ Invalid username or password', 'error');
+                }
+            } catch (error) {
+                showAlert('loginAlert', '❌ Failed to verify credentials. Please try again.', 'error');
+                console.error('Login error:', error);
             }
         }
 
