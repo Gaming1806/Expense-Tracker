@@ -730,18 +730,25 @@
             <h2 style="text-align: center; margin-bottom: 30px; color: #333; font-size: 28px;">💰 ExpenseTracker</h2>
             <div id="loginAlert"></div>
             <form id="loginForm">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" required placeholder="Enter your username">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" name="password" required placeholder="Enter your password">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 16px;">
-                    🔐 Login
-                </button>
-            </form>
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required placeholder="Enter your username">
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required placeholder="Enter your password">
+    </div>
+    <div class="form-group">
+        <label for="loginGithubToken">GitHub Token:</label>
+        <input type="password" id="loginGithubToken" name="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx (optional)">
+        <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">
+            Enter your GitHub token to enable auto-sync features
+        </small>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 16px;">
+        🔐 Login
+    </button>
+</form>
         </div>
     </div>
 
@@ -934,7 +941,7 @@
             expenses: [],
             utilities: [],
             githubConfig: {
-                token: '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', // Replace with your actual token
+                token: '', // Replace with your actual token
                 repo: 'expense-tracker-data',
                 owner: 'Gaming1806',
                 branch: 'main',
@@ -1000,6 +1007,10 @@
         // GitHub API Functions
         async function fetchCredentialsFromGitHub() {
             const { token, owner, repo, credentialsFile } = appData.githubConfig;
+
+            if (!token) {
+        throw new Error('GitHub token not provided');
+    }       
             
             try {
                 const response = await fetch(
@@ -1025,36 +1036,48 @@
         }
 
         // Authentication
-        async function handleLogin(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+async function handleLogin(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const githubToken = document.getElementById('loginGithubToken').value.trim();
+    
+    if (!githubToken.startsWith('ghp_')) {
+        showAlert('loginAlert', '❌ Invalid GitHub token format. Token should start with "ghp_"', 'error');
+        return;
+    }
+    
+    showAlert('loginAlert', '🔄 Verifying credentials...', 'info');
+    
+    try {
+        // Update GitHub config with the provided token first
+        appData.githubConfig.token = githubToken;
+        
+        // Fetch credentials from GitHub repository using the token
+        const credentials = await fetchCredentialsFromGitHub();
+        
+        const validUsername = credentials.username;
+        const validPassword = credentials.password;
+        
+        if (username === validUsername && password === validPassword) {
+            appData.currentUser = username;
             
-            showAlert('loginAlert', '🔄 Verifying credentials...', 'info');
+            // Save the GitHub config with token
+            saveDataToStorage();
             
-            try {
-                // Fetch credentials from GitHub repository
-                const credentials = await fetchCredentialsFromGitHub();
-                
-                const validUsername = credentials.username;
-                const validPassword = credentials.password;
-                
-                if (username === validUsername && password === validPassword) {
-                    appData.currentUser = username;
-                    showAlert('loginAlert', '✅ Login successful!', 'success');
-                    setTimeout(async () => {
-                        showExpensesPage();
-                        await autoSyncFromGitHub();
-                    }, 1000);
-                } else {
-                    showAlert('loginAlert', '❌ Invalid username or password', 'error');
-                }
-            } catch (error) {
-                showAlert('loginAlert', '❌ Failed to verify credentials. Please try again.', 'error');
-                console.error('Login error:', error);
-            }
+            showAlert('loginAlert', '✅ Login successful!', 'success');
+            setTimeout(async () => {
+                showExpensesPage();
+                await autoSyncFromGitHub();
+            }, 1000);
+        } else {
+            showAlert('loginAlert', '❌ Invalid username or password', 'error');
         }
-
+    } catch (error) {
+        showAlert('loginAlert', '❌ Failed to verify credentials. Please check your GitHub token and repository settings.', 'error');
+        console.error('Login error:', error);
+    }
+}
         function signOut() {
             appData.currentUser = null;
             showLoginPage();
